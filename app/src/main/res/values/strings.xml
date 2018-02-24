@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Clients</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_refresh">Settings</string>
+    <string name="search">Search</string>
+    <string name="logo_desc">App logo</string>
+    <string name="country_name">Nigeria</string>
+    <string name="title_tab_0">Clients</string>
+    <string name="title_tab_1">New Client</string>
+    <string name="hello_world">Hello</string>
+    <string name="first_name">First name</string>
+    <string name="second_name">Second name</string>
+    <string name="save_new_client">Save</string>
+    <string name="clear_fields">Clear</string>
+    <string name="enter_phone_number">Phone number</string>
+    <string name="enter_second_name">Enter second name</string>
+    <string name="sync">Sync</string>
+    <string name="patronymic_name">Patronymic name</string>
+    <string name="set_birth_day">Set birth day:</string>
+    <string name="ok">Ok</string>
+    <string name="date">Date</string>
+    <string name="add_new_client">Add new client</string>
+    <string name="first_name_is_mandatory_to_fill_in">First name is mandatory to fill in</string>
+    <string name="second_name_is_mandatory_to_fill_in">Second name is mandatory to fill in</string>
+    <string name="phone_number_is_to_short">Phone number is to short</string>
+    <string name="photo_is_mandatory">Photo is mandatory</string>
+    <string name="found">found</string>
+    <string name="nothing">Nothing</string>
+</resources>
