@@ -59,7 +59,7 @@ public class MainActivity extends BaseActivity implements
         if (newText.length() >= 1) {
             searchClient(newText);
         } else {
-            clearearch();
+            clearSearch();
         }
         return true;
     }
@@ -136,7 +136,7 @@ public class MainActivity extends BaseActivity implements
         return false;
     }
 
-    public boolean clearearch() {
+    public boolean clearSearch() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.search_container_view);
         if (fragment instanceof SearchFragment) {
             ((SearchFragment) fragment).clear();

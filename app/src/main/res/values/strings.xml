@@ -26,4 +26,7 @@
     <string name="photo_is_mandatory">Photo is mandatory</string>
     <string name="found">found</string>
     <string name="nothing">Nothing</string>
+    <string name="need_permission">Need permission to work with app</string>
+    <string name="syncing">Syncing ...</string>
+    <string name="storage_unavailible">Storage is unavailable</string>
 </resources>

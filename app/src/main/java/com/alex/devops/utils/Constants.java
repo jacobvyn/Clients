@@ -1,9 +1,5 @@
 package com.alex.devops.utils;
 
-/**
- * Created by vynnykiakiv on 2/20/18.
- */
-
 public class Constants {
     public static final int CREATE_NEW_CLIENT_REQUEST_CODE = 888;
     public static final String DB_NAME = "clients_db";

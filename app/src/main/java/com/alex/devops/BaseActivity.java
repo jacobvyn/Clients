@@ -44,7 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (!PermissionHelper.hasPermission(this)) {
-            Toast.makeText(this, "Need permission to work with app", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.need_permission, Toast.LENGTH_LONG).show();
             finish();
         }
     }
@@ -106,7 +106,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 // TODO: 2/23/18  syncing logic
             }
         });
-        Snackbar.make(findViewById(R.id.root_view), "Syncing ...", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(findViewById(R.id.root_view), R.string.syncing, Snackbar.LENGTH_SHORT).show();
     }
 
     public abstract void onSearchFinished(List<Client> clients);

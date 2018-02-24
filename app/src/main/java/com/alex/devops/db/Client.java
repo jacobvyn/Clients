@@ -141,7 +141,7 @@ public class Client implements Parcelable {
         byte[] blobPhoto = Utils.getBytes(mBitmap);
         Utils.writeToFileAsync(mPhotoPath, blobPhoto);
         setBlobPhoto(blobPhoto);
-        mBitmap = null;
+        mBitmap.recycle();
     }
 
     public String getPhotoPath() {

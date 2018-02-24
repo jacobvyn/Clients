@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.alex.devops.db.Client;
+import com.example.test.app.jacob.mygalleryapp.R;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -34,7 +35,7 @@ public class Utils {
             File tempFile = createTempFile(createBaseDir(context));
             return tempFile == null ? null : tempFile.getAbsolutePath();
         } else {
-            Toast.makeText(context, "Storage is unavailable", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.storage_unavailible, Toast.LENGTH_SHORT).show();
             return null;
         }
     }
@@ -45,7 +46,7 @@ public class Utils {
             createFile(tempFile);
             return tempFile.getAbsolutePath();
         } else {
-            Toast.makeText(context, "Storage is unavailable", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.storage_unavailible, Toast.LENGTH_SHORT).show();
             return null;
         }
     }
@@ -56,7 +57,7 @@ public class Utils {
             createFile(tempFile);
             return tempFile;
         } else {
-            Toast.makeText(context, "Storage is unavailable", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.storage_unavailible, Toast.LENGTH_SHORT).show();
             return null;
         }
     }
