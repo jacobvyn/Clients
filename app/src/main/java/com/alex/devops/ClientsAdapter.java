@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alex.devops.db.Client;
-import com.example.test.app.jacob.mygalleryapp.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;

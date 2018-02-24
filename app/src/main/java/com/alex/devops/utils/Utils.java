@@ -12,8 +12,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.alex.devops.R;
 import com.alex.devops.db.Client;
-import com.example.test.app.jacob.mygalleryapp.R;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;

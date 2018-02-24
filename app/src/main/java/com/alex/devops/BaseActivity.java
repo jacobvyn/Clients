@@ -15,7 +15,6 @@ import com.alex.devops.db.Client;
 import com.alex.devops.db.ClientsDataBase;
 import com.alex.devops.utils.ExecutorHelper;
 import com.alex.devops.utils.PermissionHelper;
-import com.example.test.app.jacob.mygalleryapp.R;
 
 import java.util.List;
 
@@ -63,6 +62,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 client.prepare();
                 mDataBase.clientDao().insert(client);
                 Log.e("+++ insertClient", client.toString());
+                onClientSavedSuccess();
             }
         });
     }
@@ -110,4 +110,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public abstract void onSearchFinished(List<Client> clients);
+
+    public abstract void onClientSavedSuccess();
+
 }

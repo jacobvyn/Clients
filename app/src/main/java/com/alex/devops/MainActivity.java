@@ -2,6 +2,7 @@ package com.alex.devops;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -13,14 +14,14 @@ import android.view.View;
 
 import com.alex.devops.db.Client;
 import com.alex.devops.utils.Constants;
-import com.example.test.app.jacob.mygalleryapp.R;
 
 import java.util.List;
 
 public class MainActivity extends BaseActivity implements
         SearchView.OnQueryTextListener,
         MenuItem.OnActionExpandListener,
-        View.OnClickListener {
+        View.OnClickListener, OnSwipeListener.OnSwipe {
+    private View mRootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,8 @@ public class MainActivity extends BaseActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         findViewById(R.id.new_client_button).setOnClickListener(this);
+        mRootView = findViewById(R.id.activity_main_scroll_layout);
+        mRootView.setOnTouchListener(new OnSwipeListener(this, this));
     }
 
 
@@ -95,6 +98,11 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
+    public void onClientSavedSuccess() {
+        Snackbar.make(mRootView, R.string.client_saved_success, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
     public boolean onMenuItemActionExpand(MenuItem item) {
         insertSearchFragment();
         return true;
@@ -142,5 +150,10 @@ public class MainActivity extends BaseActivity implements
             ((SearchFragment) fragment).clear();
         }
         return true;
+    }
+
+    @Override
+    public void onSwipe() {
+        starNewClientActivity();
     }
 }

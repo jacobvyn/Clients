@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import com.alex.devops.db.Client;
 import com.alex.devops.utils.Utils;
-import com.example.test.app.jacob.mygalleryapp.R;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

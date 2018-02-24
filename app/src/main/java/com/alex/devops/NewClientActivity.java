@@ -14,7 +14,6 @@ import android.view.WindowManager;
 
 import com.alex.devops.db.Client;
 import com.alex.devops.utils.Constants;
-import com.example.test.app.jacob.mygalleryapp.R;
 
 public class NewClientActivity extends AppCompatActivity {
 

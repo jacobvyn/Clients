@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alex.devops.db.Client;
-import com.example.test.app.jacob.mygalleryapp.R;
 
 import java.util.List;
 

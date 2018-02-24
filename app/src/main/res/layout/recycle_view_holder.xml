@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="10dp"
             android:paddingTop="8dp"
-            android:text="Jacob"
+            android:text="@string/name_test"
             android:textColor="@color/black"
             android:textSize="22sp"
             android:textStyle="bold" />
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="12dp"
             android:paddingTop="32dp"
-            android:text="Vynnyk"
+            android:text="@string/second_name_test"
             android:textColor="@color/black"
             android:textSize="22sp"
             android:textStyle="bold" />

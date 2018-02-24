@@ -1,0 +1,33 @@
+<resources>
+    <string name="action_settings">Настройки</string>
+    <string name="action_refresh">Настройки</string>
+    <string name="search">Поиск</string>
+    <string name="logo_desc">Приложение</string>
+    <string name="title_tab_0">Клиенты</string>
+    <string name="title_tab_1">Новый клиент</string>
+    <string name="hello_world">Hello</string>
+    <string name="first_name">Имя</string>
+    <string name="second_name">Фамилия</string>
+    <string name="save_new_client">Сохранить</string>
+    <string name="enter_phone_number">Тел. номер</string>
+    <string name="enter_second_name">Введите фамилию</string>
+    <string name="sync">Синхронизировать</string>
+    <string name="patronymic_name">Отчество</string>
+    <string name="set_birth_day">День рождения:</string>
+    <string name="ok">Ok</string>
+    <string name="date">2014-02-01</string>
+    <string name="add_new_client">Добавить нового клиента</string>
+    <string name="first_name_is_mandatory_to_fill_in">Необходимо ввести имя</string>
+    <string name="second_name_is_mandatory_to_fill_in">Необходимо ввести фамилию</string>
+    <string name="phone_number_is_to_short">Номер тел. короткий</string>
+    <string name="photo_is_mandatory">Необходимо сделать фото</string>
+    <string name="found">не найдено</string>
+    <string name="nothing">Ничего</string>
+    <string name="need_permission">Необходимо разрешение для работы с приложением</string>
+    <string name="syncing">Синхронизация...</string>
+    <string name="storage_unavailible">Хранилище недоступно</string>
+    <string name="name_test">Name test</string>
+    <string name="second_name_test">Second name test</string>
+    <string name="app_name">Клиенты</string>
+    <string name="client_saved_success">Клиент успешно сохранен!</string>
+</resources>
