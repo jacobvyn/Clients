@@ -29,6 +29,9 @@
             android:parentActivityName="com.alex.devops.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ClientViewPagerActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

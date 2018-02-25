@@ -1,4 +1,4 @@
-package com.alex.devops;
+package com.alex.devops.views;
 
 import android.app.DatePickerDialog;
 import android.graphics.drawable.Drawable;
@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.alex.devops.R;
 import com.alex.devops.db.Client;
 import com.alex.devops.db.Parent;
 

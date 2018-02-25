@@ -5,4 +5,5 @@ public class Constants {
     public static final String DB_NAME = "clients_db";
     public static final String TEMP_DIR = "TempPhoto";
     public static final String ARG_NEW_CLIENT = "ARG_NEW_CLIENT";
+    public static final String ARG_VIEW_PAGER_CLIENTS = "ARG_VIEW_PAGER_CLIENTS";
 }

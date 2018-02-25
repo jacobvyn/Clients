@@ -1,4 +1,4 @@
-package com.alex.devops;
+package com.alex.devops.commons;
 
 import android.content.Context;
 import android.support.v4.view.GestureDetectorCompat;

@@ -1,4 +1,4 @@
-package com.alex.devops;
+package com.alex.devops.views;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.alex.devops.R;
 import com.alex.devops.db.Parent;
 import com.alex.devops.utils.Utils;
 

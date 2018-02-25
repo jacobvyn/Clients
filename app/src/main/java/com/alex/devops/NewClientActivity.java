@@ -4,29 +4,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
 
+import com.alex.devops.commons.SimpleActivity;
 import com.alex.devops.db.Client;
 import com.alex.devops.utils.Constants;
+import com.alex.devops.views.ClientViewFragment;
 
-public class NewClientActivity extends AppCompatActivity {
+public class NewClientActivity extends SimpleActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Window window = getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
 
         setContentView(R.layout.new_client_activity_layout);
-
+        findViewById(R.id.new_client_root_view).setBackgroundColor(getBackgroundColor());
         Toolbar toolbar = (Toolbar) findViewById(R.id.child_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

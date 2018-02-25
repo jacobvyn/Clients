@@ -1,5 +1,6 @@
 package com.alex.devops;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -12,14 +13,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.alex.devops.commons.BaseActivity;
+import com.alex.devops.commons.OnSwipeListener;
 import com.alex.devops.db.Client;
 import com.alex.devops.utils.Constants;
+import com.alex.devops.views.SearchFragment;
+import com.flask.colorpicker.ColorPickerView;
+import com.flask.colorpicker.builder.ColorPickerClickListener;
+import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
 import java.util.List;
 
-public class MainActivity extends BaseActivity implements SearchView.OnQueryTextListener,
+public class MainActivity extends BaseActivity implements
+        SearchView.OnQueryTextListener,
         MenuItem.OnActionExpandListener,
-        View.OnClickListener, OnSwipeListener.OnSwipe {
+        View.OnClickListener,
+        OnSwipeListener.OnSwipe {
     private View mRootView;
     protected MenuItem mSearchMenuItem;
 
@@ -33,6 +42,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         findViewById(R.id.new_client_button).setOnClickListener(this);
         mRootView = findViewById(R.id.activity_main_scroll_layout);
         mRootView.setOnTouchListener(new OnSwipeListener(this, this));
+        setBackgroundColor(getBackgroundColor());
     }
 
 
@@ -53,8 +63,42 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 syncRemoteDB();
                 return true;
             }
-            default:
+            case R.id.action_color_pick: {
+                chooseColor();
+                return true;
+            }
+            default: {
                 return super.onOptionsItemSelected(item);
+            }
+        }
+    }
+
+    private void chooseColor() {
+        ColorPickerDialogBuilder
+                .with(this)
+                .setTitle(R.string.choose_color)
+                .initialColor(R.color.white)
+                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                .density(12)
+                .setPositiveButton("ok", new ColorPickerClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
+                        setBackgroundColor(selectedColor);
+                        storeBackgroundColor(selectedColor);
+                    }
+                })
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .build()
+                .show();
+    }
+
+    private void setBackgroundColor(int color) {
+        if (mRootView != null) {
+            mRootView.setBackgroundColor(color);
         }
     }
 

@@ -12,7 +12,6 @@ public class Parent {
     private String mPatronymicName;
     private String mPhoneNumber;
     private String mPhotoPath;
-    private Bitmap mBitmap;
     private byte[] mPhotoBlob;
 
     public String getFirstName() {
@@ -45,14 +44,6 @@ public class Parent {
 
     public void setPhoneNumber(String mPhoneNumber) {
         this.mPhoneNumber = mPhoneNumber;
-    }
-
-    public Bitmap getBitmap() {
-        return mBitmap;
-    }
-
-    public void setBitmap(Bitmap mBitmap) {
-        this.mBitmap = mBitmap;
     }
 
     public String getPhotoPath() {

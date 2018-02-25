@@ -16,4 +16,10 @@
         android:orderInCategory="200"
         android:title="@string/sync"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_color_pick"
+        android:icon="@drawable/ic_action_refresh"
+        android:orderInCategory="200"
+        android:title="@string/choose_color"
+        app:showAsAction="never" />
 </menu>

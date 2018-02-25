@@ -1,4 +1,4 @@
-package com.alex.devops;
+package com.alex.devops.views;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alex.devops.R;
 import com.alex.devops.db.Client;
 
 import java.util.List;
