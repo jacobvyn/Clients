@@ -7,14 +7,14 @@
     <string name="title_tab_0">Clients</string>
     <string name="title_tab_1">New Client</string>
     <string name="hello_world">Hello</string>
-    <string name="first_name">First name</string>
+    <string name="first_name">Parent first name</string>
     <string name="second_name">Second name</string>
     <string name="save_new_client">Save</string>
     <string name="enter_phone_number">Phone number</string>
     <string name="enter_second_name">Enter second name</string>
     <string name="sync">Sync</string>
     <string name="patronymic_name">Patronymic name</string>
-    <string name="set_birth_day">Set birth day:</string>
+    <string name="set_birth_day">BD:</string>
     <string name="ok">Ok</string>
     <string name="date">2014-02-01</string>
     <string name="add_new_client">Add new client</string>
@@ -30,4 +30,6 @@
     <string name="name_test">Name test</string>
     <string name="second_name_test">Second name test</string>
     <string name="client_saved_success">New client saved successfully</string>
+    <string name="child_first_name">Child first name</string>
+    <string name="child_first_name_is_mandatory_to_fill_in">First name is mandatory to fill in</string>
 </resources>

@@ -59,7 +59,7 @@ public class NewClientActivity extends AppCompatActivity {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.client_view_root_layout);
         if (fragment instanceof ClientViewFragment) {
             ClientViewFragment clientFragment = (ClientViewFragment) fragment;
-            if (clientFragment.isDataValid()) {
+            if (clientFragment.checkInputData()) {
                 finishWithResult(clientFragment.getClient());
             }
         }

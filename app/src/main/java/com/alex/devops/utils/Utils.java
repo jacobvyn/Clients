@@ -187,7 +187,7 @@ public class Utils {
             @Override
             public void run() {
                 if (view != null) {
-                    String path = client.getPhotoPath();
+                    String path = client.getMainPhotoPath();
                     Bitmap bitMap = getBitMap(path, view.getWidth(), view.getHeight());
                     view.setImageBitmap(bitMap);
                 }

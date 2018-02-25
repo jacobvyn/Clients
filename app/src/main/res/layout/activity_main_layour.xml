@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
-            android:elevation="4dp"
+            android:elevation="@dimen/toolbar_elevation"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
@@ -46,11 +46,11 @@
 
                 <ImageView
                     android:id="@+id/new_client_button"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="@dimen/new_client_button_width"
+                    android:layout_height="@dimen/new_client_button_height"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_margin="16dp"
+                    android:layout_margin="@dimen/new_client_button_margin"
                     android:src="@drawable/add_client" />
             </RelativeLayout>
         </RelativeLayout>

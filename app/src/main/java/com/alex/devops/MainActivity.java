@@ -17,11 +17,12 @@ import com.alex.devops.utils.Constants;
 
 import java.util.List;
 
-public class MainActivity extends BaseActivity implements
-        SearchView.OnQueryTextListener,
+public class MainActivity extends BaseActivity implements SearchView.OnQueryTextListener,
         MenuItem.OnActionExpandListener,
         View.OnClickListener, OnSwipeListener.OnSwipe {
     private View mRootView;
+    protected MenuItem mSearchMenuItem;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +39,9 @@ public class MainActivity extends BaseActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem searchItem = menu.getItem(0);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        searchItem.setOnActionExpandListener(this);
+        mSearchMenuItem = menu.getItem(0);
+        SearchView searchView = (SearchView) mSearchMenuItem.getActionView();
+        mSearchMenuItem.setOnActionExpandListener(this);
         searchView.setOnQueryTextListener(this);
         return true;
     }
@@ -153,7 +154,14 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void onSwipe() {
+    public void onSwipeLeft() {
         starNewClientActivity();
+    }
+
+    @Override
+    public void onSwipeBottom() {
+        if (mSearchMenuItem != null) {
+            mSearchMenuItem.expandActionView();
+        }
     }
 }

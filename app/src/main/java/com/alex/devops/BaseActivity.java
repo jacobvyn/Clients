@@ -61,7 +61,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             public void run() {
                 client.prepare();
                 mDataBase.clientDao().insert(client);
-                Log.e("+++ insertClient", client.toString());
+                Log.e("+++ insertClient", client.getMainParentFirstName());
                 onClientSavedSuccess();
             }
         });
@@ -101,7 +101,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         ExecutorHelper.submit(new Runnable() {
             @Override
             public void run() {
-                List<Client> clientsList = mDataBase.clientDao().getAllClients();
+                List<Client> nonSyncedCliets = mDataBase.clientDao().getAllClientsAfter(System.currentTimeMillis());
 
                 // TODO: 2/23/18  syncing logic
             }

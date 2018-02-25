@@ -66,7 +66,7 @@ public class OnSwipeListener implements View.OnTouchListener {
 
     public void onSwipeLeft() {
         if (mListener != null) {
-            mListener.onSwipe();
+            mListener.onSwipeLeft();
         }
     }
 
@@ -74,9 +74,14 @@ public class OnSwipeListener implements View.OnTouchListener {
     }
 
     public void onSwipeBottom() {
+        if (mListener != null) {
+            mListener.onSwipeBottom();
+        }
     }
 
     public interface OnSwipe {
-        void onSwipe();
+        void onSwipeLeft();
+
+        void onSwipeBottom();
     }
 }

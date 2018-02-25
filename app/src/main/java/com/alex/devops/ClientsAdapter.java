@@ -32,9 +32,9 @@ class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ClientViewHolde
     @Override
     public void onBindViewHolder(ClientViewHolder holder, int position) {
         Client client = mClientList.get(position);
-        holder.firstName.setText(client.getFirstName());
-        holder.secondName.setText(client.getSecondName());
-        Picasso.with(mContext).load(new File(client.getPhotoPath())).into(holder.imageView);
+        holder.firstName.setText(client.getMainParentFirstName());
+        holder.secondName.setText(client.getMainSecondName());
+        Picasso.with(mContext).load(new File(client.getMainPhotoPath())).into(holder.imageView);
     }
 
     @Override
