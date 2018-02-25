@@ -144,6 +144,12 @@ public class ParentViewFragment extends Fragment implements View.OnClickListener
     public void enableSeparator() {
         if (mRootView != null) {
             mRootView.findViewById(R.id.separator).setVisibility(View.VISIBLE);
+        }
+        addFreeSpace();
+    }
+
+    public void addFreeSpace() {
+        if (mRootView != null) {
             mRootView.findViewById(R.id.free_space_view).setVisibility(View.VISIBLE);
         }
     }
@@ -163,5 +169,11 @@ public class ParentViewFragment extends Fragment implements View.OnClickListener
         parent.setPhotoBlob(Utils.getBytes(mBitmap));
 
         return parent;
+    }
+
+    public void removeFreeSpace() {
+        if (mRootView != null) {
+            mRootView.findViewById(R.id.free_space_view).setVisibility(View.GONE);
+        }
     }
 }

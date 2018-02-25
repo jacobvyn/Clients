@@ -14,7 +14,7 @@
     <string name="sync">Синхронизировать</string>
     <string name="patronymic_name">Отчество</string>
     <string name="set_birth_day">ДР:</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="date">2014-02-01</string>
     <string name="add_new_client">Добавить нового клиента</string>
     <string name="first_name_is_mandatory_to_fill_in">Необходимо ввести имя родителя</string>
@@ -33,4 +33,5 @@
     <string name="child_first_name">Имя ребенка</string>
     <string name="child_first_name_is_mandatory_to_fill_in">Необходимо ввести имя ребенка</string>
     <string name="choose_color">Выберите цвет</string>
+    <string name="cancel">Отмена</string>
 </resources>

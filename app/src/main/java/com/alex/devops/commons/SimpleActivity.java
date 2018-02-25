@@ -34,4 +34,13 @@ public class SimpleActivity extends AppCompatActivity {
         }
     }
 
+    public void setLastTimeSync() {
+        if (mPrefs != null) {
+            mPrefs.setLastTimeSync();
+        }
+    }
+
+    public long getLastTimeSync() {
+        return mPrefs.getLastTimeSync();
+    }
 }

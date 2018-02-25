@@ -28,7 +28,8 @@ public class MainActivity extends BaseActivity implements
         SearchView.OnQueryTextListener,
         MenuItem.OnActionExpandListener,
         View.OnClickListener,
-        OnSwipeListener.OnSwipe {
+        OnSwipeListener.OnSwipe,
+        ColorPickerClickListener {
     private View mRootView;
     protected MenuItem mSearchMenuItem;
 
@@ -80,20 +81,16 @@ public class MainActivity extends BaseActivity implements
                 .initialColor(R.color.white)
                 .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
                 .density(12)
-                .setPositiveButton("ok", new ColorPickerClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
-                        setBackgroundColor(selectedColor);
-                        storeBackgroundColor(selectedColor);
-                    }
-                })
-                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
+                .setPositiveButton(R.string.ok, this)
+                .setNegativeButton(getString(R.string.cancel), null)
                 .build()
                 .show();
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
+        setBackgroundColor(selectedColor);
+        storeBackgroundColor(selectedColor);
     }
 
     private void setBackgroundColor(int color) {

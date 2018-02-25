@@ -55,6 +55,21 @@ public class ClientViewFragment extends Fragment implements
                 .beginTransaction()
                 .add(R.id.main_parent_root_container, mMainParent)
                 .commit();
+
+        addFreeSpace(true);
+    }
+
+    private void addFreeSpace(final boolean add) {
+        mAddParentButton.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (add) {
+                    mMainParent.addFreeSpace();
+                } else {
+                    mMainParent.removeFreeSpace();
+                }
+            }
+        }, 100);
     }
 
     private void initChildViews(View view) {
@@ -80,8 +95,10 @@ public class ClientViewFragment extends Fragment implements
     private void onAddParentClicked() {
         if (mIsAddParent) {
             addSecondParentFragment();
+            addFreeSpace(false);
         } else {
             removeSecondParentFragment();
+            addFreeSpace(true);
         }
     }
 

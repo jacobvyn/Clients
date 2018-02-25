@@ -96,9 +96,9 @@ public abstract class BaseActivity extends SimpleActivity {
         ExecutorHelper.submit(new Runnable() {
             @Override
             public void run() {
-                List<Client> nonSyncedCliets = mDataBase.clientDao().getAllClientsAfter(System.currentTimeMillis());
-
-                // TODO: 2/23/18  syncing logic
+                List<Client> nonSyncedClients = mDataBase.clientDao().getAllClientsAfter(getLastTimeSync());
+                // TODO: 2/23/18  syncing logic here
+                setLastTimeSync();
             }
         });
         Snackbar.make(findViewById(R.id.root_view), R.string.syncing, Snackbar.LENGTH_SHORT).show();
