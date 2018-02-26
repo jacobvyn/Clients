@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.alex.devops.R;
+import com.alex.devops.db.Child;
 import com.alex.devops.db.Client;
 import com.alex.devops.db.Parent;
 
@@ -28,10 +29,10 @@ public class ClientViewFragment extends Fragment implements
     public static final String TAG = ClientViewFragment.class.getName();
 
     private TextView mChildBirthDateTextView;
-    private EditText mChildFirstNameEditText;
+    private EditText mChildNameEditText;
     private long mChildBirthDate;
-    private ParentViewFragment mSecondParent;
-    private ParentViewFragment mMainParent;
+    private ParentViewFragment mSecondaryParent;
+    private ParentViewFragment mPrimaryParent;
     private FloatingActionButton mAddParentButton;
     private boolean mIsAddParent = true;
 
@@ -50,10 +51,10 @@ public class ClientViewFragment extends Fragment implements
         mAddParentButton = (FloatingActionButton) view.findViewById(R.id.add_second_parent_fab);
         mAddParentButton.setOnClickListener(this);
         initChildViews(view);
-        mMainParent = ParentViewFragment.newInstance();
+        mPrimaryParent = ParentViewFragment.newInstance();
         getChildFragmentManager()
                 .beginTransaction()
-                .add(R.id.main_parent_root_container, mMainParent)
+                .add(R.id.primary_parent_root_container, mPrimaryParent)
                 .commit();
 
         addFreeSpace(true);
@@ -64,16 +65,16 @@ public class ClientViewFragment extends Fragment implements
             @Override
             public void run() {
                 if (add) {
-                    mMainParent.addFreeSpace();
+                    mPrimaryParent.addFreeSpace();
                 } else {
-                    mMainParent.removeFreeSpace();
+                    mPrimaryParent.removeFreeSpace();
                 }
             }
         }, 100);
     }
 
     private void initChildViews(View view) {
-        mChildFirstNameEditText = (EditText) view.findViewById(R.id.child_first_name_edit_text);
+        mChildNameEditText = (EditText) view.findViewById(R.id.child_name_edit_text);
         mChildBirthDateTextView = (TextView) view.findViewById(R.id.birth_day_text_view);
         mChildBirthDateTextView.setOnClickListener(this);
     }
@@ -94,7 +95,7 @@ public class ClientViewFragment extends Fragment implements
 
     private void onAddParentClicked() {
         if (mIsAddParent) {
-            addSecondParentFragment();
+            addSecondaryParentFragment();
             addFreeSpace(false);
         } else {
             removeSecondParentFragment();
@@ -102,16 +103,16 @@ public class ClientViewFragment extends Fragment implements
         }
     }
 
-    private void addSecondParentFragment() {
-        mSecondParent = ParentViewFragment.newInstance();
+    private void addSecondaryParentFragment() {
+        mSecondaryParent = ParentViewFragment.newInstance();
         getChildFragmentManager()
                 .beginTransaction()
-                .add(R.id.second_parent_root_container, mSecondParent)
+                .add(R.id.secondary_parent_root_container, mSecondaryParent)
                 .commit();
-        mChildFirstNameEditText.postDelayed(new Runnable() {
+        mChildNameEditText.postDelayed(new Runnable() {
             @Override
             public void run() {
-                mSecondParent.enableSeparator();
+                mSecondaryParent.enableSeparator();
             }
         }, 50);
         Drawable remove = getActivity().getDrawable(R.drawable.remove_parent_icon);
@@ -122,10 +123,10 @@ public class ClientViewFragment extends Fragment implements
     private void removeSecondParentFragment() {
         getChildFragmentManager()
                 .beginTransaction()
-                .remove(mSecondParent)
+                .remove(mSecondaryParent)
                 .commit();
         mAddParentButton.setBackground(getActivity().getDrawable(R.drawable.add_parent_icon));
-        mSecondParent = null;
+        mSecondaryParent = null;
         mIsAddParent = true;
     }
 
@@ -156,35 +157,38 @@ public class ClientViewFragment extends Fragment implements
     }
 
     public Client getClient() {
-        Parent mainParent = mMainParent.getParent();
 
-        String childFirstName = getText(mChildFirstNameEditText);
+        String childFirstName = getText(mChildNameEditText);
+        Child child = new Child();
+        child.setName(childFirstName);
+        child.setBirthDay(mChildBirthDate);
 
+        Parent primaryParent = mPrimaryParent.getParent();
+
+// TODO: 2/26/18
         Client client = new Client();
-        client.setChildName(childFirstName);
-        client.setChildBirthDay(mChildBirthDate);
-        client.setMainParent(mainParent);
+        client.setPrimaryParentId(primaryParent);
 
-        if (mSecondParent != null) {
-            Parent secondParent = mSecondParent.getParent();
-            client.setSecondParent(secondParent);
+        if (mSecondaryParent != null) {
+            Parent secondaryParent = mSecondaryParent.getParent();
+            client.setSecondParent(secondaryParent);
         }
 
         return client;
     }
 
     public boolean checkInputData() {
-        boolean childName = validateTextField(mChildFirstNameEditText, 3);
+        boolean childName = validateTextField(mChildNameEditText, 3);
         if (!childName) {
             Snackbar.make(getView(), R.string.child_first_name_is_mandatory_to_fill_in, Snackbar.LENGTH_LONG).show();
             return false;
         }
 
-        if (mMainParent != null && !mMainParent.checkInputData()) {
+        if (mPrimaryParent != null && !mPrimaryParent.checkInputData()) {
             return false;
         }
 
-        if (mSecondParent != null && !mSecondParent.checkInputData()) {
+        if (mSecondaryParent != null && !mSecondaryParent.checkInputData()) {
             return false;
         }
         return true;

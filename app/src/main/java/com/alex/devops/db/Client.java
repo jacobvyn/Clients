@@ -8,65 +8,23 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-import com.alex.devops.utils.Utils;
-
 @Entity(tableName = "clients")
 public class Client implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private int mId;
 
+    @ColumnInfo(name = "child_id")
+    private int mChildId;
+
+    @ColumnInfo(name = "primary_parent_id")
+    private int mPrimaryParentId;
+
+    @ColumnInfo(name = "secondary_parent_id")
+    private int mSecondaryParentId;
+
     @ColumnInfo(name = "time_stamp")
     private long mTimeStamp;
-
-    @ColumnInfo(name = "main_parent_first_name")
-    @NonNull
-    private String mMainParentFirstName = "";
-
-    @ColumnInfo(name = "main_second_name")
-    @NonNull
-    private String mMainSecondName = "";
-
-    @ColumnInfo(name = "main_patronymic_name")
-    private String mMainPatronymicName;
-
-    @ColumnInfo(name = "main_phone_number")
-    @NonNull
-    private String mMainPhoneNumber;
-
-    @ColumnInfo(name = "main_photo_blob")
-    @NonNull
-    private byte[] mMainBlobPhoto = new byte[0];
-
-    @ColumnInfo(name = "main_photo_path")
-    private String mMainPhotoPath;
-
-    //--------
-    @ColumnInfo(name = "child_birth_day")
-    private long mChildBirthDay;
-
-    @ColumnInfo(name = "child_first_name")
-    private String mChildName;
-
-    //--------
-
-    @ColumnInfo(name = "second_parent_first_name")
-    private String mSecondParentFirstName = "";
-
-    @ColumnInfo(name = "second_parent_second_name")
-    private String mSecondParentSecondName = "";
-
-    @ColumnInfo(name = "second_patronymic_name")
-    private String mSecondPatronymicName;
-
-    @ColumnInfo(name = "second_phone_number")
-    private String mSecondPhoneNumber;
-
-    @ColumnInfo(name = "second_photo_blob")
-    private byte[] mSecondPhotoBlob = new byte[0];
-
-    @ColumnInfo(name = "second_photo_path")
-    private String mSecondPhotoPath;
 
     public Client() {
         mTimeStamp = System.currentTimeMillis();
@@ -74,45 +32,24 @@ public class Client implements Parcelable {
 
     protected Client(Parcel in) {
         mId = in.readInt();
+        mChildId = in.readInt();
+        mPrimaryParentId = in.readInt();
+        mSecondaryParentId = in.readInt();
         mTimeStamp = in.readLong();
-        mChildName = in.readString();
-        mChildBirthDay = in.readLong();
-
-        mMainParentFirstName = in.readString();
-        mMainSecondName = in.readString();
-        mMainPatronymicName = in.readString();
-        mMainPhoneNumber = in.readString();
-        mMainPhotoPath = in.readString();
-        mMainBlobPhoto = in.createByteArray();
-
-        mSecondParentFirstName = in.readString();
-        mSecondParentSecondName = in.readString();
-        mSecondPatronymicName = in.readString();
-        mSecondPhoneNumber = in.readString();
-        mSecondPhotoPath = in.readString();
-        mSecondPhotoBlob = in.createByteArray();
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(mId);
-        parcel.writeLong(mTimeStamp);
-        parcel.writeString(mChildName);
-        parcel.writeLong(mChildBirthDay);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mId);
+        dest.writeInt(mChildId);
+        dest.writeInt(mPrimaryParentId);
+        dest.writeInt(mSecondaryParentId);
+        dest.writeLong(mTimeStamp);
+    }
 
-        parcel.writeString(mMainParentFirstName);
-        parcel.writeString(mMainSecondName);
-        parcel.writeString(mMainPatronymicName);
-        parcel.writeString(mMainPhoneNumber);
-        parcel.writeString(mMainPhotoPath);
-        parcel.writeByteArray(mMainBlobPhoto);
-
-        parcel.writeString(mSecondParentFirstName);
-        parcel.writeString(mSecondParentSecondName);
-        parcel.writeString(mSecondPatronymicName);
-        parcel.writeString(mSecondPhoneNumber);
-        parcel.writeString(mSecondPhotoPath);
-        parcel.writeByteArray(mSecondPhotoBlob);
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     @Ignore
@@ -128,162 +65,43 @@ public class Client implements Parcelable {
         }
     };
 
-    public void setMainParentFirstName(String firstName) {
-        this.mMainParentFirstName = firstName;
+    public int getId() {
+        return mId;
     }
 
-    public String getMainSecondName() {
-        return mMainSecondName;
+    public void setId(int mId) {
+        this.mId = mId;
     }
 
-    public String getMainParentFirstName() {
-        return mMainParentFirstName;
+    public int getChildId() {
+        return mChildId;
     }
 
-    public void setMainSecondName(String secondName) {
-        this.mMainSecondName = secondName;
+    public void setChildId(int mChildId) {
+        this.mChildId = mChildId;
     }
 
-    public byte[] getMainBlobPhoto() {
-        return mMainBlobPhoto;
+    public int getPrimaryParentId() {
+        return mPrimaryParentId;
     }
 
-    public void setMainBlobPhoto(byte[] blobPhoto) {
-        this.mMainBlobPhoto = blobPhoto;
+    public void setPrimaryParentId(int mPrimaryParentId) {
+        this.mPrimaryParentId = mPrimaryParentId;
     }
 
-    public String getMainPhoneNumber() {
-        return mMainPhoneNumber;
+    public int getSecondaryParentId() {
+        return mSecondaryParentId;
     }
 
-    public void setMainPhoneNumber(String phoneNumber) {
-        this.mMainPhoneNumber = phoneNumber;
+    public void setSecondaryParentId(int mSecondaryParentId) {
+        this.mSecondaryParentId = mSecondaryParentId;
     }
 
     public long getTimeStamp() {
         return mTimeStamp;
     }
 
-    public void setTimeStamp(long mTimerStamp) {
-        this.mTimeStamp = mTimerStamp;
-    }
-
-    @NonNull
-    public int getId() {
-        return mId;
-    }
-
-    public void setId(@NonNull int mId) {
-        this.mId = mId;
-    }
-
-    public String getMainPhotoPath() {
-        return mMainPhotoPath;
-    }
-
-    public void setMainPhotoPath(String photoPath) {
-        mMainPhotoPath = photoPath;
-    }
-
-    public void setMainPatronymicName(String patronymicName) {
-        this.mMainPatronymicName = patronymicName;
-    }
-
-    public String getMainPatronymicName() {
-        return mMainPatronymicName;
-    }
-
-    public void setChildBirthDay(long birthDay) {
-        this.mChildBirthDay = birthDay;
-    }
-
-    public long getChildBirthDay() {
-        return mChildBirthDay;
-    }
-
-    public void prepare() {
-        Utils.writeToFileAsync(mMainPhotoPath, mMainBlobPhoto);
-        if (mSecondPhotoBlob.length > 0) {
-            Utils.writeToFileAsync(mSecondPhotoPath, mSecondPhotoBlob);
-        }
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public void setChildName(String childFirstName) {
-        this.mChildName = childFirstName;
-    }
-
-    public String getChildName() {
-        return mChildName;
-    }
-
-    public String getSecondParentFirstName() {
-        return mSecondParentFirstName;
-    }
-
-    public void setSecondParentFirstName(String mParentFirstName) {
-        this.mSecondParentFirstName = mParentFirstName;
-    }
-
-    public void setMainParent(Parent parent) {
-        setMainParentFirstName(parent.getFirstName());
-        setMainSecondName(parent.getSecondName());
-        setMainPatronymicName(parent.getPatronymicName());
-        setMainPhoneNumber(parent.getPhoneNumber());
-        setMainPhotoPath(parent.getPhotoPath());
-        setMainBlobPhoto(parent.getPhotoBlob());
-    }
-
-    public void setSecondParent(Parent parent) {
-        setSecondParentFirstName(parent.getFirstName());
-        setSecondParentSecondName(parent.getSecondName());
-        setSecondPatronymicName(parent.getPatronymicName());
-        setSecondPhoneNumber(parent.getPhoneNumber());
-        setSecondPhotoPath(parent.getPhotoPath());
-        setSecondPhotoBlob(parent.getPhotoBlob());
-    }
-
-    public String getSecondParentSecondName() {
-        return mSecondParentSecondName;
-    }
-
-    public void setSecondParentSecondName(String secondParentSecondName) {
-        this.mSecondParentSecondName = secondParentSecondName;
-    }
-
-    public String getSecondPatronymicName() {
-        return mSecondPatronymicName;
-    }
-
-    public void setSecondPatronymicName(String secondPatronymicName) {
-        this.mSecondPatronymicName = secondPatronymicName;
-    }
-
-    public String getSecondPhoneNumber() {
-        return mSecondPhoneNumber;
-    }
-
-    public void setSecondPhoneNumber(String secondPhoneNumber) {
-        this.mSecondPhoneNumber = secondPhoneNumber;
-    }
-
-    public byte[] getSecondPhotoBlob() {
-        return mSecondPhotoBlob;
-    }
-
-    public void setSecondPhotoBlob(byte[] secondPhotoBlob) {
-        this.mSecondPhotoBlob = secondPhotoBlob;
-    }
-
-    public String getSecondPhotoPath() {
-        return mSecondPhotoPath;
-    }
-
-    public void setSecondPhotoPath(String secondPhotoPath) {
-        this.mSecondPhotoPath = secondPhotoPath;
+    public void setTimeStamp(long mTimeStamp) {
+        this.mTimeStamp = mTimeStamp;
     }
 }

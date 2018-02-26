@@ -31,11 +31,11 @@
                     android:paddingRight="10dp">
 
                     <EditText
-                        android:id="@+id/child_first_name_edit_text"
+                        android:id="@+id/child_name_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:hint="@string/child_first_name"
+                        android:hint="@string/child_name"
                         android:lines="1"
                         android:maxLength="12"
                         android:maxLines="1"
@@ -73,16 +73,16 @@
             </LinearLayout>
 
             <FrameLayout
-                android:id="@+id/main_parent_root_container"
+                android:id="@+id/primary_parent_root_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/child_layout" />
 
             <FrameLayout
-                android:id="@+id/second_parent_root_container"
+                android:id="@+id/secondary_parent_root_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/main_parent_root_container" />
+                android:layout_below="@id/primary_parent_root_container" />
         </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton

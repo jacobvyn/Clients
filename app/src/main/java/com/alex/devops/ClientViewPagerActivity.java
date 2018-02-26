@@ -22,10 +22,13 @@ import com.alex.devops.R;
 import com.alex.devops.commons.SimpleActivity;
 import com.alex.devops.db.Client;
 import com.alex.devops.utils.Constants;
+import com.alex.devops.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import static com.alex.devops.utils.Constants.ARG_CLIENT;
 
 /**
  * Created by vynnykiakiv on 2/25/18.
@@ -73,7 +76,7 @@ public class ClientViewPagerActivity extends SimpleActivity {
 
         public static Fragment newInstance(Client client) {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("111", client);
+            bundle.putParcelable(ARG_CLIENT, client);
             SlideClientFragment fragment = new SlideClientFragment();
             fragment.setArguments(bundle);
             return fragment;
@@ -87,12 +90,13 @@ public class ClientViewPagerActivity extends SimpleActivity {
 
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-            Client mClient = getArguments().getParcelable("111");
+            Client client = getArguments().getParcelable(ARG_CLIENT);
 
             TextView name = view.findViewById(R.id.view_pager_item_name_text_view);
             ImageView photo = view.findViewById(R.id.view_pager_item_photo_image_view);
-            name.setText(mClient.getMainParentFirstName());
-            Picasso.with(getActivity()).load(new File(mClient.getMainPhotoPath())).into(photo);
+            name.setText(client.getMainParentFirstName());
+            byte[] mainBlobPhoto = client.getMainBlobPhoto();
+            photo.setImageBitmap(Utils.getBitMap(mainBlobPhoto));
         }
     }
 

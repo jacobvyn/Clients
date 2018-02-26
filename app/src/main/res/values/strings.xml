@@ -18,8 +18,8 @@
     <string name="ok">OK</string>
     <string name="date">2014-02-01</string>
     <string name="add_new_client">Add new client</string>
-    <string name="first_name_is_mandatory_to_fill_in">First name is mandatory to fill in</string>
-    <string name="second_name_is_mandatory_to_fill_in">Second name is mandatory to fill in</string>
+    <string name="name_is_mandatory_to_fill_in">First name is mandatory to fill in</string>
+    <string name="surname_is_mandatory_to_fill_in">Second name is mandatory to fill in</string>
     <string name="phone_number_is_to_short">Phone number is to short</string>
     <string name="photo_is_mandatory">Photo is mandatory</string>
     <string name="found">found</string>
@@ -30,7 +30,7 @@
     <string name="name_test">Name test</string>
     <string name="second_name_test">Second name test</string>
     <string name="client_saved_success">New client saved successfully</string>
-    <string name="child_first_name">Child first name</string>
+    <string name="child_name">Child first name</string>
     <string name="child_first_name_is_mandatory_to_fill_in">First name is mandatory to fill in</string>
     <string name="choose_color">Choose color</string>
     <string name="сancel">Cancel</string>

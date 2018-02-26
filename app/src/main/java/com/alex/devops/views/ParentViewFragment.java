@@ -19,22 +19,19 @@ import com.alex.devops.R;
 import com.alex.devops.db.Parent;
 import com.alex.devops.utils.Utils;
 
-import java.io.File;
-
 /**
  * Created by vynnykiakiv on 2/25/18.
  */
 
 public class ParentViewFragment extends Fragment implements View.OnClickListener {
-    private static final int CLIENT_PHOTO_REQUEST_CODE = 777;
+    private static final int PARENT_PHOTO_REQUEST_CODE = 777;
 
     private ImageView mPhotoImageView;
-    private EditText mFirstNameEditText;
-    private EditText mSecondNameEditText;
+    private EditText mNameEditText;
+    private EditText mSurnameEditText;
     private EditText mPhoneNumberEditText;
     private EditText mPatronymicNameEditText;
     private Bitmap mBitmap;
-    private File mPhotoPath;
     private boolean mIsPhotoSet;
     private View mRootView;
 
@@ -48,13 +45,12 @@ public class ParentViewFragment extends Fragment implements View.OnClickListener
         return inflater.inflate(R.layout.parent_view_layout, container, false);
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mRootView = view;
-        mPhotoImageView = (ImageView) view.findViewById(R.id.client_photo_image_view);
-        mFirstNameEditText = (EditText) view.findViewById(R.id.parent_first_name_edit_text);
-        mSecondNameEditText = (EditText) view.findViewById(R.id.second_name_edit_text);
+        mPhotoImageView = (ImageView) view.findViewById(R.id.parent_photo_image_view);
+        mNameEditText = (EditText) view.findViewById(R.id.parent_name_edit_text);
+        mSurnameEditText = (EditText) view.findViewById(R.id.surname_edit_text);
         mPhoneNumberEditText = (EditText) view.findViewById(R.id.phone_number_edit_text);
         mPatronymicNameEditText = (EditText) view.findViewById(R.id.patronymic_name_edit_text);
         mPhotoImageView.setOnClickListener(this);
@@ -63,7 +59,7 @@ public class ParentViewFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.client_photo_image_view: {
+            case R.id.parent_photo_image_view: {
                 takePhoto();
                 break;
             }
@@ -72,15 +68,14 @@ public class ParentViewFragment extends Fragment implements View.OnClickListener
 
     private void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        mPhotoPath = Utils.createImageFile(getContext());
         if (Utils.isResolved(intent, getActivity())) {
-            startActivityForResult(intent, CLIENT_PHOTO_REQUEST_CODE);
+            startActivityForResult(intent, PARENT_PHOTO_REQUEST_CODE);
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CLIENT_PHOTO_REQUEST_CODE && resultCode == AppCompatActivity.RESULT_OK) {
+        if (requestCode == PARENT_PHOTO_REQUEST_CODE && resultCode == AppCompatActivity.RESULT_OK) {
             handlePhoto(data.getExtras());
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -112,15 +107,15 @@ public class ParentViewFragment extends Fragment implements View.OnClickListener
     }
 
     public boolean checkInputData() {
-        boolean parentName = validateTextField(mFirstNameEditText, 3);
+        boolean parentName = validateTextField(mNameEditText, 3);
         if (!parentName) {
-            Snackbar.make(getView(), R.string.first_name_is_mandatory_to_fill_in, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(getView(), R.string.name_is_mandatory_to_fill_in, Snackbar.LENGTH_LONG).show();
             return false;
         }
 
-        boolean sName = validateTextField(mSecondNameEditText, 3);
+        boolean sName = validateTextField(mSurnameEditText, 3);
         if (!sName) {
-            Snackbar.make(getView(), R.string.second_name_is_mandatory_to_fill_in, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(getView(), R.string.surname_is_mandatory_to_fill_in, Snackbar.LENGTH_LONG).show();
             return false;
         }
 
@@ -155,17 +150,16 @@ public class ParentViewFragment extends Fragment implements View.OnClickListener
     }
 
     public Parent getParent() {
-        String firstName = getText(mFirstNameEditText);
-        String secondName = getText(mSecondNameEditText);
+        String name = getText(mNameEditText);
+        String surname = getText(mSurnameEditText);
         String patronymicName = getText(mPatronymicNameEditText);
         String phoneNumber = getText(mPhoneNumberEditText);
 
         Parent parent = new Parent();
-        parent.setFirstName(firstName);
-        parent.setSecondName(secondName);
+        parent.setName(name);
+        parent.setSurname(surname);
         parent.setPatronymicName(patronymicName);
         parent.setPhoneNumber(phoneNumber);
-        parent.setPhotoPath(mPhotoPath.getAbsolutePath());
         parent.setPhotoBlob(Utils.getBytes(mBitmap));
 
         return parent;

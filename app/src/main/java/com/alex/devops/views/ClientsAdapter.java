@@ -2,6 +2,7 @@ package com.alex.devops.views;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.alex.devops.ClientViewPagerActivity;
 import com.alex.devops.R;
 import com.alex.devops.db.Client;
 import com.alex.devops.utils.Constants;
+import com.alex.devops.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -38,7 +40,8 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ClientVi
         Client client = mClientList.get(position);
         holder.firstName.setText(client.getMainParentFirstName());
         holder.secondName.setText(client.getMainSecondName());
-        Picasso.with(mContext).load(new File(client.getMainPhotoPath())).into(holder.imageView);
+        byte[] mainBlobPhoto = client.getMainBlobPhoto();
+        holder.imageView.setImageBitmap(Utils.getBitMap(mainBlobPhoto));
         holder.rootView.setOnClickListener(this);
     }
 

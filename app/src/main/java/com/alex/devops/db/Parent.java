@@ -1,33 +1,93 @@
 package com.alex.devops.db;
 
-import android.graphics.Bitmap;
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
-/**
- * Created by vynnykiakiv on 2/25/18.
- */
+@Entity(tableName = "parents")
+public class Parent implements Parcelable {
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    private int mId;
 
-public class Parent {
-    private String mFirstName;
-    private String mSecondName;
+    @ColumnInfo(name = "name")
+    @NonNull
+    private String mName;
+
+    @ColumnInfo(name = "sure_name")
+    private String mSurname;
+
+    @ColumnInfo(name = "patronymic_name")
     private String mPatronymicName;
+
+    @ColumnInfo(name = "phone_number")
     private String mPhoneNumber;
-    private String mPhotoPath;
+
+    @ColumnInfo(name = "photo_blob")
     private byte[] mPhotoBlob;
 
-    public String getFirstName() {
-        return mFirstName;
+    @ColumnInfo(name = "time_stamp")
+    private long mTimeStamp;
+
+    public Parent() {
+        mTimeStamp = System.currentTimeMillis();
     }
 
-    public void setFirstName(String mFirstName) {
-        this.mFirstName = mFirstName;
+    protected Parent(Parcel in) {
+        mId = in.readInt();
+        mName = in.readString();
+        mSurname = in.readString();
+        mPatronymicName = in.readString();
+        mPhoneNumber = in.readString();
+        mPhotoBlob = in.createByteArray();
+        mTimeStamp = in.readLong();
     }
 
-    public String getSecondName() {
-        return mSecondName;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mId);
+        dest.writeString(mName);
+        dest.writeString(mSurname);
+        dest.writeString(mPatronymicName);
+        dest.writeString(mPhoneNumber);
+        dest.writeByteArray(mPhotoBlob);
+        dest.writeLong(mTimeStamp);
     }
 
-    public void setSecondName(String mSecondName) {
-        this.mSecondName = mSecondName;
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Parent> CREATOR = new Creator<Parent>() {
+        @Override
+        public Parent createFromParcel(Parcel in) {
+            return new Parent(in);
+        }
+
+        @Override
+        public Parent[] newArray(int size) {
+            return new Parent[size];
+        }
+    };
+
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String mFirstName) {
+        this.mName = mFirstName;
+    }
+
+    public String getSurname() {
+        return mSurname;
+    }
+
+    public void setSurname(String mSecondName) {
+        this.mSurname = mSecondName;
     }
 
     public String getPatronymicName() {
@@ -46,19 +106,27 @@ public class Parent {
         this.mPhoneNumber = mPhoneNumber;
     }
 
-    public String getPhotoPath() {
-        return mPhotoPath;
-    }
-
-    public void setPhotoPath(String mPhotoPath) {
-        this.mPhotoPath = mPhotoPath;
-    }
-
     public byte[] getPhotoBlob() {
         return mPhotoBlob;
     }
 
     public void setPhotoBlob(byte[] mPhotoBlob) {
         this.mPhotoBlob = mPhotoBlob;
+    }
+
+    public long getTimeStamp() {
+        return mTimeStamp;
+    }
+
+    public void setTimeStamp(long mTimeStamp) {
+        this.mTimeStamp = mTimeStamp;
+    }
+
+    public int getId() {
+        return mId;
+    }
+
+    public void setId(int mId) {
+        this.mId = mId;
     }
 }

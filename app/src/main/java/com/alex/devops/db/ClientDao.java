@@ -14,9 +14,9 @@ public interface ClientDao {
     @Query("SELECT * FROM clients ORDER BY id ASC")
     List<Client> getAllClients();
 
-    @Query("SELECT * FROM clients WHERE time_stamp > :dateNow")
-    List<Client> getAllClientsAfter(long dateNow);
+    @Query("SELECT * FROM clients WHERE time_stamp > :date")
+    List<Client> getAllClientsAfter(long date);
 
-    @Query("SELECT * FROM clients WHERE main_second_name LIKE :search OR main_phone_number LIKE :search")
+//    @Query("SELECT * FROM clients WHERE main_second_name LIKE :search OR main_phone_number LIKE :search")
     List<Client> getClientsLike(String search);
 }

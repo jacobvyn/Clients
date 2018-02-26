@@ -17,8 +17,8 @@
     <string name="ok">OK</string>
     <string name="date">2014-02-01</string>
     <string name="add_new_client">Добавить нового клиента</string>
-    <string name="first_name_is_mandatory_to_fill_in">Необходимо ввести имя родителя</string>
-    <string name="second_name_is_mandatory_to_fill_in">Необходимо ввести фамилию</string>
+    <string name="name_is_mandatory_to_fill_in">Необходимо ввести имя родителя</string>
+    <string name="surname_is_mandatory_to_fill_in">Необходимо ввести фамилию</string>
     <string name="phone_number_is_to_short">Номер тел. короткий</string>
     <string name="photo_is_mandatory">Необходимо сделать фото</string>
     <string name="found">не найдено</string>
@@ -30,7 +30,7 @@
     <string name="second_name_test">Second name test</string>
     <string name="app_name">Клиенты</string>
     <string name="client_saved_success">Клиент успешно сохранен!</string>
-    <string name="child_first_name">Имя ребенка</string>
+    <string name="child_name">Имя ребенка</string>
     <string name="child_first_name_is_mandatory_to_fill_in">Необходимо ввести имя ребенка</string>
     <string name="choose_color">Выберите цвет</string>
     <string name="cancel">Отмена</string>

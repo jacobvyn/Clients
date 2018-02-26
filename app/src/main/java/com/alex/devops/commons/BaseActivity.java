@@ -26,7 +26,6 @@ public abstract class BaseActivity extends SimpleActivity {
         mDataBase = ClientsDataBase.getDataBase(this);
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -43,7 +42,6 @@ public abstract class BaseActivity extends SimpleActivity {
         }
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -54,9 +52,8 @@ public abstract class BaseActivity extends SimpleActivity {
         ExecutorHelper.submit(new Runnable() {
             @Override
             public void run() {
-                client.prepare();
                 mDataBase.clientDao().insert(client);
-                Log.e("+++ insertClient", client.getMainParentFirstName());
+                Log.e("+++ insertClient", "" + client.getPrimaryParentId());
                 onClientSavedSuccess();
             }
         });

@@ -23,7 +23,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/client_photo_image_view"
+            android:id="@+id/parent_photo_image_view"
             android:layout_width="180dp"
             android:layout_height="220dp"
             android:layout_margin="10dp"
@@ -42,7 +42,7 @@
                 android:gravity="center">
 
                 <EditText
-                    android:id="@+id/parent_first_name_edit_text"
+                    android:id="@+id/parent_name_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -60,7 +60,7 @@
                 android:gravity="center">
 
                 <EditText
-                    android:id="@+id/second_name_edit_text"
+                    android:id="@+id/surname_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"

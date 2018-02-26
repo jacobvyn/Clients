@@ -11,6 +11,10 @@ import com.alex.devops.utils.Constants;
 public abstract class ClientsDataBase extends RoomDatabase {
     private static ClientsDataBase INSTANCE;
 
+    public abstract ChildDao childDao();
+
+    public abstract ParentDao parentDao();
+
     public abstract ClientDao clientDao();
 
     public static ClientsDataBase getDataBase(Context context) {
