@@ -182,24 +182,11 @@ public class Utils {
         }
     }
 
-    public static void setImageBitmapAsync(final Client client, final ImageView view) {
-        ExecutorHelper.submit(new Runnable() {
-            @Override
-            public void run() {
-                if (view != null) {
-                    String path = client.getMainPhotoPath();
-                    Bitmap bitMap = getBitMap(path, view.getWidth(), view.getHeight());
-                    view.setImageBitmap(bitMap);
-                }
-            }
-        });
-    }
-
-    private static Bitmap getBitMap(String photoPath, int targetW, int targetH) {
+    private static Bitmap getBitMap(String filePath, int targetW, int targetH) {
         // Get the dimensions of the bitmap
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         bmOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(photoPath, bmOptions);
+        BitmapFactory.decodeFile(filePath, bmOptions);
         int photoW = bmOptions.outWidth;
         int photoH = bmOptions.outHeight;
 
@@ -210,6 +197,6 @@ public class Utils {
         bmOptions.inJustDecodeBounds = false;
         bmOptions.inSampleSize = scaleFactor;
         bmOptions.inPurgeable = true;
-        return BitmapFactory.decodeFile(photoPath, bmOptions);
+        return BitmapFactory.decodeFile(filePath, bmOptions);
     }
 }

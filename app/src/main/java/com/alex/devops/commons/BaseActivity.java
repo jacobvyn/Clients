@@ -54,7 +54,6 @@ public abstract class BaseActivity extends SimpleActivity {
         ExecutorHelper.submit(new Runnable() {
             @Override
             public void run() {
-                client.prepare();
                 mDataBase.clientDao().insert(client);
                 Log.e("+++ insertClient", client.getMainParentFirstName());
                 onClientSavedSuccess();
@@ -66,9 +65,13 @@ public abstract class BaseActivity extends SimpleActivity {
         ExecutorHelper.submit(new Runnable() {
             @Override
             public void run() {
-                final List<Client> clientsList = mDataBase.clientDao().getClientsLike("%" + secondName + "%");
+                List<Client> clientsList;
+                if (secondName != null && secondName.equalsIgnoreCase("all")) {
+                    clientsList = mDataBase.clientDao().getAllClients();
+                } else {
+                    clientsList = mDataBase.clientDao().getClientsLike("%" + secondName + "%");
+                }
                 onSearchFinishedOnUiThread(clientsList);
-
             }
         });
     }

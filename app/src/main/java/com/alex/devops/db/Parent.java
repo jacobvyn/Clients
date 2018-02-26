@@ -1,17 +1,10 @@
 package com.alex.devops.db;
 
-import android.graphics.Bitmap;
-
-/**
- * Created by vynnykiakiv on 2/25/18.
- */
-
 public class Parent {
     private String mFirstName;
     private String mSecondName;
     private String mPatronymicName;
     private String mPhoneNumber;
-    private String mPhotoPath;
     private byte[] mPhotoBlob;
 
     public String getFirstName() {
@@ -44,14 +37,6 @@ public class Parent {
 
     public void setPhoneNumber(String mPhoneNumber) {
         this.mPhoneNumber = mPhoneNumber;
-    }
-
-    public String getPhotoPath() {
-        return mPhotoPath;
-    }
-
-    public void setPhotoPath(String mPhotoPath) {
-        this.mPhotoPath = mPhotoPath;
     }
 
     public byte[] getPhotoBlob() {

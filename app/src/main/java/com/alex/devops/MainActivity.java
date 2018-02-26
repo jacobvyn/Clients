@@ -82,7 +82,7 @@ public class MainActivity extends BaseActivity implements
                 .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
                 .density(12)
                 .setPositiveButton(R.string.ok, this)
-                .setNegativeButton(getString(R.string.cancel), null)
+                .setNegativeButton(getString(R.string.abort), null)
                 .build()
                 .show();
     }

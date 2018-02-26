@@ -1,30 +1,24 @@
 package com.alex.devops;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alex.devops.R;
 import com.alex.devops.commons.SimpleActivity;
 import com.alex.devops.db.Client;
 import com.alex.devops.utils.Constants;
-import com.squareup.picasso.Picasso;
+import com.alex.devops.utils.Utils;
 
-import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -92,9 +86,8 @@ public class ClientViewPagerActivity extends SimpleActivity {
             TextView name = view.findViewById(R.id.view_pager_item_name_text_view);
             ImageView photo = view.findViewById(R.id.view_pager_item_photo_image_view);
             name.setText(mClient.getMainParentFirstName());
-            Picasso.with(getActivity()).load(new File(mClient.getMainPhotoPath())).into(photo);
+            Bitmap bitMap = Utils.getBitMap(mClient.getMainBlobPhoto());
+            photo.setImageBitmap(bitMap);
         }
     }
-
-
 }

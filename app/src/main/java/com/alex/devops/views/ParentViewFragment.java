@@ -34,7 +34,6 @@ public class ParentViewFragment extends Fragment implements View.OnClickListener
     private EditText mPhoneNumberEditText;
     private EditText mPatronymicNameEditText;
     private Bitmap mBitmap;
-    private File mPhotoPath;
     private boolean mIsPhotoSet;
     private View mRootView;
 
@@ -72,7 +71,6 @@ public class ParentViewFragment extends Fragment implements View.OnClickListener
 
     private void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        mPhotoPath = Utils.createImageFile(getContext());
         if (Utils.isResolved(intent, getActivity())) {
             startActivityForResult(intent, CLIENT_PHOTO_REQUEST_CODE);
         }
@@ -165,7 +163,6 @@ public class ParentViewFragment extends Fragment implements View.OnClickListener
         parent.setSecondName(secondName);
         parent.setPatronymicName(patronymicName);
         parent.setPhoneNumber(phoneNumber);
-        parent.setPhotoPath(mPhotoPath.getAbsolutePath());
         parent.setPhotoBlob(Utils.getBytes(mBitmap));
 
         return parent;
