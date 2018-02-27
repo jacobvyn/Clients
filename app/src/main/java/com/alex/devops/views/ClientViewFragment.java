@@ -114,8 +114,7 @@ public class ClientViewFragment extends Fragment implements
                 mSecondParent.enableSeparator();
             }
         }, 50);
-        Drawable remove = getActivity().getDrawable(R.drawable.remove_parent_icon);
-        mAddParentButton.setBackground(remove);
+        mAddParentButton.setImageResource(R.drawable.ic_minus_one_parent);
         mIsAddParent = false;
     }
 
@@ -124,7 +123,7 @@ public class ClientViewFragment extends Fragment implements
                 .beginTransaction()
                 .remove(mSecondParent)
                 .commit();
-        mAddParentButton.setBackground(getActivity().getDrawable(R.drawable.add_parent_icon));
+        mAddParentButton.setImageResource(R.drawable.ic_plus_one_parent);
         mSecondParent = null;
         mIsAddParent = true;
     }

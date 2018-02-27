@@ -92,7 +92,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="16dp"
-            android:src="@drawable/add_parent_icon" />
+            android:src="@drawable/ic_plus_one_parent" />
     </RelativeLayout>
 </ScrollView>
 

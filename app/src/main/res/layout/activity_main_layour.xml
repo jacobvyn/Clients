@@ -17,42 +17,32 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
             android:elevation="@dimen/toolbar_elevation"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            android:theme="@style/MyActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <ScrollView
-        android:id="@+id/activity_main_scroll_layout"
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/action_bar_layout"
-        android:fillViewport="true">
+        android:layout_below="@id/action_bar_layout">
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <FrameLayout
+            android:id="@+id/search_container_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_centerHorizontal="true"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true" />
 
-            <FrameLayout
-                android:id="@+id/search_container_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/search_container_view">
-
-                <ImageView
-                    android:id="@+id/new_client_button"
-                    android:layout_width="@dimen/new_client_button_width"
-                    android:layout_height="@dimen/new_client_button_height"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="@dimen/new_client_button_margin"
-                    android:src="@drawable/add_client" />
-            </RelativeLayout>
-        </RelativeLayout>
-    </ScrollView>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/new_client_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/new_client_button_margin"
+            android:src="@drawable/ic_person_add" />
+    </RelativeLayout>
 </RelativeLayout>

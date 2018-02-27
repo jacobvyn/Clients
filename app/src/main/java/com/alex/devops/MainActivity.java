@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         findViewById(R.id.new_client_button).setOnClickListener(this);
-        mRootView = findViewById(R.id.activity_main_scroll_layout);
+        mRootView = findViewById(R.id.root_view);
         mRootView.setOnTouchListener(new OnSwipeListener(this, this));
         setBackgroundColor(getBackgroundColor());
     }
@@ -117,7 +117,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     private void insertSearchFragment() {
-        findViewById(R.id.activity_main_scroll_layout).postDelayed(new Runnable() {
+        findViewById(R.id.root_view).postDelayed(new Runnable() {
             @Override
             public void run() {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

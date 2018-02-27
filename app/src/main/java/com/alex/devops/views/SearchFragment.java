@@ -39,7 +39,7 @@ public class SearchFragment extends Fragment {
         mRecycleView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mNoResultView = view.findViewById(R.id.no_result_image);
         mNoResultView.setVisibility(View.GONE);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecycleView.setLayoutManager(linearLayoutManager);
         mRecycleView.setAdapter(mClientsAdapter);
     }
