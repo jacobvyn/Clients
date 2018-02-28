@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_fio_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/child_layout"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp">
+
+    <ImageView
+        android:id="@+id/pager_parent_photo_image_view"
+        android:layout_width="180dp"
+        android:layout_height="200dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="5dp"
+        android:src="@drawable/photo_place_holder" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/pager_parent_photo_image_view"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/pager_parent_name_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:lines="1"
+            android:maxLength="12"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:text="@string/first_name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_20_sp" />
+
+        <TextView
+            android:id="@+id/pager_second_name_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:lines="1"
+            android:maxLength="12"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:text="@string/second_name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_20_sp" />
+
+        <TextView
+            android:id="@+id/pager_patronymic_name_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:lines="1"
+            android:maxLength="12"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:text="@string/patronymic_name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_20_sp" />
+
+        <TextView
+            android:id="@+id/pager_phone_number_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:inputType="phone"
+            android:maxLength="13"
+            android:padding="8dp"
+            android:text="@string/enter_phone_number"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_20_sp" />
+    </LinearLayout>
+</RelativeLayout>
+

@@ -25,6 +25,41 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/pager_visit_controls"
         android:layout_below="@id/view_pager_child_toolbar_layout" />
 
+    <LinearLayout
+        android:id="@+id/pager_visit_controls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="@string/last_visited"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_18_sp" />
+
+        <TextView
+            android:id="@+id/pager_last_visited_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="@string/text_example"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_18_sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/pager_visit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:text="@string/visit_button"
+            android:textAllCaps="false"
+            android:textSize="@dimen/text_18_sp" />
+    </LinearLayout>
 </RelativeLayout>

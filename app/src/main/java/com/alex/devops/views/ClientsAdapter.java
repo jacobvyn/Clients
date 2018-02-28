@@ -108,15 +108,10 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ClientVi
         public ClientViewHolderNew(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            disable(first);
-            disable(second);
-            disable(patronymic);
-            disable(phone);
-        }
-
-        private void disable(EditText edi) {
-            edi.setFocusable(false);
-            edi.setClickable(false);
+            Utils.disableView(first);
+            Utils.disableView(second);
+            Utils.disableView(patronymic);
+            Utils.disableView(phone);
         }
     }
 }

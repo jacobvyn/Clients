@@ -35,4 +35,7 @@
     <string name="choose_color">Выберите цвет</string>
     <string name="abort">Отмена</string>
     <string name="found_clients">Клиенты</string>
+    <string name="last_visited">Последнее посещение:</string>
+    <string name="text_example">2014-02-01</string>
+    <string name="visit_button">Visit</string>
 </resources>

@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -228,5 +229,12 @@ public class Utils {
     public static String getFormattedDate(long mChildBirthDate) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return simpleDateFormat.format(mChildBirthDate);
+    }
+
+    public static void disableView(EditText editText) {
+        if (editText != null) {
+            editText.setFocusable(false);
+            editText.setClickable(false);
+        }
     }
 }

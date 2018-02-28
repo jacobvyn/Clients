@@ -7,6 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.alex.devops.utils.Utils;
 
@@ -73,6 +74,7 @@ public class Client implements Parcelable {
 
     public Client() {
         mTimeStamp = System.currentTimeMillis();
+        mLastVisit = mTimeStamp;
     }
 
     protected Client(Parcel in) {
@@ -282,12 +284,16 @@ public class Client implements Parcelable {
         this.mVisitCounter = mVisitCounter;
     }
 
-    public void incVisit() {
+    public void incVisitCounter() {
         mVisitCounter++;
         setLastVisit(System.currentTimeMillis());
     }
 
-    public boolean wasToday() {
+    public boolean hasVisitedToday() {
         return Utils.isItToday(mLastVisit);
+    }
+
+    public boolean hasSecondParent() {
+        return !TextUtils.isEmpty(mSecondParentFirstName);
     }
 }

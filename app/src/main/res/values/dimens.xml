@@ -4,6 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_18_sp">18sp</dimen>
+    <dimen name="text_20_sp">20sp</dimen>
     <dimen name="find_client_image_view_width">100dp</dimen>
     <dimen name="find_client_image_view_height">100dp</dimen>
     <dimen name="sync_button_width">50dp</dimen>
