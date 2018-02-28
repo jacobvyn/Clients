@@ -7,7 +7,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,14 +18,9 @@ import com.alex.devops.R;
 import com.alex.devops.db.Parent;
 import com.alex.devops.utils.Utils;
 
-import java.io.File;
-
-/**
- * Created by vynnykiakiv on 2/25/18.
- */
-
-public class ParentViewFragment extends Fragment implements View.OnClickListener {
+public class ParentViewFragment extends BaseFragment implements View.OnClickListener {
     private static final int CLIENT_PHOTO_REQUEST_CODE = 777;
+    private static final String NEED_FREE_SPACE = "NEED_FREE_SPACE";
 
     private ImageView mPhotoImageView;
     private EditText mFirstNameEditText;
@@ -37,14 +31,18 @@ public class ParentViewFragment extends Fragment implements View.OnClickListener
     private boolean mIsPhotoSet;
     private View mRootView;
 
-    public static ParentViewFragment newInstance() {
-        return new ParentViewFragment();
+    public static ParentViewFragment newInstance(boolean freeSpace) {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(NEED_FREE_SPACE, freeSpace);
+        ParentViewFragment fragment = new ParentViewFragment();
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.parent_view_layout, container, false);
+        return inflater.inflate(R.layout.fragment_parent_view_layout, container, false);
     }
 
 
@@ -57,6 +55,10 @@ public class ParentViewFragment extends Fragment implements View.OnClickListener
         mPhoneNumberEditText = (EditText) view.findViewById(R.id.phone_number_edit_text);
         mPatronymicNameEditText = (EditText) view.findViewById(R.id.patronymic_name_edit_text);
         mPhotoImageView.setOnClickListener(this);
+
+        if (getArguments().getBoolean(NEED_FREE_SPACE)) {
+            enableSeparator();
+        }
     }
 
     @Override
@@ -101,14 +103,7 @@ public class ParentViewFragment extends Fragment implements View.OnClickListener
         super.onDetach();
     }
 
-    private String getText(EditText editText) {
-        if (editText != null) {
-            return editText.getText().toString();
-        } else {
-            return "";
-        }
-    }
-
+    @Override
     public boolean checkInputData() {
         boolean parentName = validateTextField(mFirstNameEditText, 3);
         if (!parentName) {
@@ -135,9 +130,6 @@ public class ParentViewFragment extends Fragment implements View.OnClickListener
         return true;
     }
 
-    private boolean validateTextField(EditText editText, int length) {
-        return editText != null && editText.getText().toString().length() >= length;
-    }
 
     public void enableSeparator() {
         if (mRootView != null) {
@@ -153,10 +145,10 @@ public class ParentViewFragment extends Fragment implements View.OnClickListener
     }
 
     public Parent getParent() {
-        String firstName = getText(mFirstNameEditText);
-        String secondName = getText(mSecondNameEditText);
-        String patronymicName = getText(mPatronymicNameEditText);
-        String phoneNumber = getText(mPhoneNumberEditText);
+        String firstName = getTextFrom(mFirstNameEditText);
+        String secondName = getTextFrom(mSecondNameEditText);
+        String patronymicName = getTextFrom(mPatronymicNameEditText);
+        String phoneNumber = getTextFrom(mPhoneNumberEditText);
 
         Parent parent = new Parent();
         parent.setFirstName(firstName);

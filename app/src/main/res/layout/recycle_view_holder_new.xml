@@ -10,6 +10,6 @@
     android:background="@drawable/background_card"
     android:padding="15dp">
 
-    <include layout="@layout/parent_view_layout" />
+    <include layout="@layout/fragment_parent_view_layout" />
 </RelativeLayout>
 

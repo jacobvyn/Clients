@@ -1,19 +1,10 @@
 package com.alex.devops.db;
 
-public class Parent {
-    private String mFirstName;
+public class Parent extends Human {
     private String mSecondName;
     private String mPatronymicName;
     private String mPhoneNumber;
     private byte[] mPhotoBlob;
-
-    public String getFirstName() {
-        return mFirstName;
-    }
-
-    public void setFirstName(String mFirstName) {
-        this.mFirstName = mFirstName;
-    }
 
     public String getSecondName() {
         return mSecondName;

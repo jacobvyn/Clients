@@ -31,7 +31,7 @@
     <string name="second_name_test">Second name test</string>
     <string name="client_saved_success">New client saved successfully</string>
     <string name="child_first_name">Child first name</string>
-    <string name="child_first_name_is_mandatory_to_fill_in">First name is mandatory to fill in</string>
+    <string name="child_first_name_is_mandatory_to_fill_in">Child name is mandatory to fill in</string>
     <string name="choose_color">Choose color</string>
     <string name="abort">Cancel</string>
     <string name="found_clients">Found clients</string>

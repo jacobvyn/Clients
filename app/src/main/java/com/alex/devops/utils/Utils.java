@@ -218,4 +218,15 @@ public class Utils {
 
         return yearLast == yearNow && monthLast == monthNow && dayLast == dayNow;
     }
+
+    public static long getTime(int year, int month, int dayOfMonth) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, dayOfMonth);
+        return calendar.getTime().getTime();
+    }
+
+    public static String getFormattedDate(long mChildBirthDate) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return simpleDateFormat.format(mChildBirthDate);
+    }
 }

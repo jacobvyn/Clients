@@ -1,33 +1,23 @@
 package com.alex.devops.views;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.alex.devops.R;
 import com.alex.devops.db.Client;
+import com.alex.devops.db.Human;
 import com.alex.devops.db.Parent;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
-public class ClientViewFragment extends Fragment implements
-        View.OnClickListener,
-        DatePickerDialog.OnDateSetListener {
+public class ClientViewFragment extends Fragment {
     public static final String TAG = ClientViewFragment.class.getName();
 
-    private TextView mChildBirthDateTextView;
-    private EditText mChildFirstNameEditText;
-    private long mChildBirthDate;
+    private ChildFragment mChildFragment;
     private ParentViewFragment mSecondParent;
     private ParentViewFragment mMainParent;
     private boolean mIsAddParent = true;
@@ -41,14 +31,18 @@ public class ClientViewFragment extends Fragment implements
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.client_view_layout, container, false);
+        return inflater.inflate(R.layout.fragment_client_view_layout, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mRootView = view;
-        initChildViews(view);
-        mMainParent = ParentViewFragment.newInstance();
+        mChildFragment = ChildFragment.newInstance();
+        getChildFragmentManager()
+                .beginTransaction()
+                .add(R.id.child_root_container, mChildFragment)
+                .commit();
+        mMainParent = ParentViewFragment.newInstance(false);
         getChildFragmentManager()
                 .beginTransaction()
                 .add(R.id.main_parent_root_container, mMainParent)
@@ -70,22 +64,6 @@ public class ClientViewFragment extends Fragment implements
         }, 100);
     }
 
-    private void initChildViews(View view) {
-        mChildFirstNameEditText = (EditText) view.findViewById(R.id.child_first_name_edit_text);
-        mChildBirthDateTextView = (TextView) view.findViewById(R.id.birth_day_text_view);
-        mChildBirthDateTextView.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.birth_day_text_view: {
-                callDataPicker();
-                break;
-            }
-        }
-    }
-
     public void onAddParentClicked() {
         if (mIsAddParent) {
             addSecondParentFragment();
@@ -97,17 +75,11 @@ public class ClientViewFragment extends Fragment implements
     }
 
     private void addSecondParentFragment() {
-        mSecondParent = ParentViewFragment.newInstance();
+        mSecondParent = ParentViewFragment.newInstance(true);
         getChildFragmentManager()
                 .beginTransaction()
                 .add(R.id.second_parent_root_container, mSecondParent)
                 .commit();
-        mChildFirstNameEditText.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mSecondParent.enableSeparator();
-            }
-        }, 50);
         mIsAddParent = false;
         onParentsChanged(true);
     }
@@ -126,50 +98,25 @@ public class ClientViewFragment extends Fragment implements
         return editText != null && editText.getText().toString().length() >= length;
     }
 
-    private String getText(EditText editText) {
-        if (editText != null) {
-            return editText.getText().toString();
-        } else {
-            return "";
-        }
-    }
-
-    private void callDataPicker() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), this, 2014, 1, 1);
-        datePickerDialog.show();
-    }
-
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, dayOfMonth);
-        mChildBirthDate = calendar.getTime().getTime();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        mChildBirthDateTextView.setText(simpleDateFormat.format(mChildBirthDate));
-    }
 
     public Client getClient() {
+        Human child = mChildFragment.getChild();
         Parent mainParent = mMainParent.getParent();
 
-        String childFirstName = getText(mChildFirstNameEditText);
-
         Client client = new Client();
-        client.setChildName(childFirstName);
-        client.setChildBirthDay(mChildBirthDate);
+        client.setChildName(child.getFirstName());
+        client.setChildBirthDay(child.getBirthDay());
         client.setMainParent(mainParent);
 
         if (mSecondParent != null) {
             Parent secondParent = mSecondParent.getParent();
             client.setSecondParent(secondParent);
         }
-
         return client;
     }
 
     public boolean checkInputData() {
-        boolean childName = validateTextField(mChildFirstNameEditText, 3);
-        if (!childName) {
-            Snackbar.make(getView(), R.string.child_first_name_is_mandatory_to_fill_in, Snackbar.LENGTH_LONG).show();
+        if (mChildFragment != null && !mChildFragment.checkInputData()) {
             return false;
         }
 
