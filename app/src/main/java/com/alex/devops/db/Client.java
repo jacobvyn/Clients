@@ -10,6 +10,9 @@ import android.support.annotation.NonNull;
 
 import com.alex.devops.utils.Utils;
 
+import java.util.Calendar;
+import java.util.Date;
+
 @Entity(tableName = "clients")
 public class Client implements Parcelable {
     @PrimaryKey(autoGenerate = true)
@@ -18,6 +21,12 @@ public class Client implements Parcelable {
 
     @ColumnInfo(name = "time_stamp")
     private long mTimeStamp;
+
+    @ColumnInfo(name = "last_visit")
+    private long mLastVisit;
+
+    @ColumnInfo(name = "visit_counter")
+    private int mVisitCounter;
 
     @ColumnInfo(name = "main_parent_first_name")
     @NonNull
@@ -69,6 +78,9 @@ public class Client implements Parcelable {
     protected Client(Parcel in) {
         mId = in.readInt();
         mTimeStamp = in.readLong();
+        mLastVisit = in.readLong();
+        mVisitCounter = in.readInt();
+
         mChildName = in.readString();
         mChildBirthDay = in.readLong();
 
@@ -89,6 +101,8 @@ public class Client implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(mId);
         parcel.writeLong(mTimeStamp);
+        parcel.writeLong(mLastVisit);
+        parcel.writeInt(mVisitCounter);
         parcel.writeString(mChildName);
         parcel.writeLong(mChildBirthDay);
 
@@ -250,5 +264,30 @@ public class Client implements Parcelable {
 
     public void setSecondPhotoBlob(byte[] secondPhotoBlob) {
         this.mSecondPhotoBlob = secondPhotoBlob;
+    }
+
+    public long getLastVisit() {
+        return mLastVisit;
+    }
+
+    public void setLastVisit(long lastVisit) {
+        this.mLastVisit = lastVisit;
+    }
+
+    public int getVisitCounter() {
+        return mVisitCounter;
+    }
+
+    public void setVisitCounter(int mVisitCounter) {
+        this.mVisitCounter = mVisitCounter;
+    }
+
+    public void incVisit() {
+        mVisitCounter++;
+        setLastVisit(System.currentTimeMillis());
+    }
+
+    public boolean wasToday() {
+        return Utils.isItToday(mLastVisit);
     }
 }

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#26282e</color>
+    <color name="colorPrimarySecond">#ec932e</color>
+    <color name="orangeDark">#ff8800</color>
+    <color name="holoOrange">#ffe9c9</color>
     <color name="colorPrimaryDark">#26282e</color>
     <color name="colorAccent">#26282e</color>
     <color name="white">#897d7d</color>
-    <color name="orange">#f1882c</color>
+    <color name="orangeLight">#edb579</color>
+    <color name="orange">#ff9b43</color>
     <color name="black">#000000</color>
 </resources>

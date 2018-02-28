@@ -1,11 +1,9 @@
 package com.alex.devops.views;
 
 import android.app.DatePickerDialog;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -32,8 +30,9 @@ public class ClientViewFragment extends Fragment implements
     private long mChildBirthDate;
     private ParentViewFragment mSecondParent;
     private ParentViewFragment mMainParent;
-    private FloatingActionButton mAddParentButton;
     private boolean mIsAddParent = true;
+    private OnParentsChanged mParentsListener;
+    private View mRootView;
 
     public static ClientViewFragment newInstance() {
         return new ClientViewFragment();
@@ -47,8 +46,7 @@ public class ClientViewFragment extends Fragment implements
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        mAddParentButton = (FloatingActionButton) view.findViewById(R.id.add_second_parent_fab);
-        mAddParentButton.setOnClickListener(this);
+        mRootView = view;
         initChildViews(view);
         mMainParent = ParentViewFragment.newInstance();
         getChildFragmentManager()
@@ -60,7 +58,7 @@ public class ClientViewFragment extends Fragment implements
     }
 
     private void addFreeSpace(final boolean add) {
-        mAddParentButton.postDelayed(new Runnable() {
+        mRootView.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (add) {
@@ -85,14 +83,10 @@ public class ClientViewFragment extends Fragment implements
                 callDataPicker();
                 break;
             }
-            case R.id.add_second_parent_fab: {
-                onAddParentClicked();
-                break;
-            }
         }
     }
 
-    private void onAddParentClicked() {
+    public void onAddParentClicked() {
         if (mIsAddParent) {
             addSecondParentFragment();
             addFreeSpace(false);
@@ -114,8 +108,8 @@ public class ClientViewFragment extends Fragment implements
                 mSecondParent.enableSeparator();
             }
         }, 50);
-        mAddParentButton.setImageResource(R.drawable.ic_minus_one_parent);
         mIsAddParent = false;
+        onParentsChanged(true);
     }
 
     private void removeSecondParentFragment() {
@@ -123,9 +117,9 @@ public class ClientViewFragment extends Fragment implements
                 .beginTransaction()
                 .remove(mSecondParent)
                 .commit();
-        mAddParentButton.setImageResource(R.drawable.ic_plus_one_parent);
         mSecondParent = null;
         mIsAddParent = true;
+        onParentsChanged(false);
     }
 
     private boolean validateTextField(EditText editText, int length) {
@@ -187,5 +181,19 @@ public class ClientViewFragment extends Fragment implements
             return false;
         }
         return true;
+    }
+
+    public void setOnParentsChangedListener(OnParentsChanged listener) {
+        mParentsListener = listener;
+    }
+
+    private void onParentsChanged(boolean added) {
+        if (mParentsListener != null) {
+            mParentsListener.onParentsChanged(added);
+        }
+    }
+
+    public interface OnParentsChanged {
+        void onParentsChanged(boolean added);
     }
 }

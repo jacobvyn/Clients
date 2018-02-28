@@ -34,4 +34,5 @@
     <string name="child_first_name_is_mandatory_to_fill_in">Необходимо ввести имя ребенка</string>
     <string name="choose_color">Выберите цвет</string>
     <string name="abort">Отмена</string>
+    <string name="found_clients">Клиенты</string>
 </resources>

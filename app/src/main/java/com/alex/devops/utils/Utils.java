@@ -21,6 +21,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Utils {
@@ -198,5 +200,22 @@ public class Utils {
         bmOptions.inSampleSize = scaleFactor;
         bmOptions.inPurgeable = true;
         return BitmapFactory.decodeFile(filePath, bmOptions);
+    }
+
+    public static boolean isItToday(long dateLong) {
+        Calendar lastVisit = Calendar.getInstance();
+        lastVisit.setTime(new Date(dateLong));
+        int yearLast = lastVisit.get(Calendar.YEAR);
+        int monthLast = lastVisit.get(Calendar.MONTH);
+        int dayLast = lastVisit.get(Calendar.DAY_OF_MONTH);
+
+
+        Calendar now = Calendar.getInstance();
+        now.setTime(new Date(System.currentTimeMillis()));
+        int yearNow = now.get(Calendar.YEAR);
+        int monthNow = now.get(Calendar.MONTH);
+        int dayNow = now.get(Calendar.DAY_OF_MONTH);
+
+        return yearLast == yearNow && monthLast == monthNow && dayLast == dayNow;
     }
 }

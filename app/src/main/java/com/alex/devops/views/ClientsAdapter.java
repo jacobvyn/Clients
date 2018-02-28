@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,7 +21,10 @@ import com.alex.devops.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ClientViewHolder> implements View.OnClickListener {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ClientViewHolderNew> implements View.OnClickListener {
     private final List<Client> mClientList = new ArrayList<Client>();
     private Context mContext;
 
@@ -28,19 +33,32 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ClientVi
     }
 
     @Override
-    public ClientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycle_view_holder, parent, false);
-        return new ClientViewHolder(view);
+    public ClientViewHolderNew onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycle_view_holder_new, parent, false);
+        return new ClientViewHolderNew(view);
+
     }
 
     @Override
-    public void onBindViewHolder(ClientViewHolder holder, int position) {
+    public void onBindViewHolder(ClientViewHolderNew holder, int position) {
         Client client = mClientList.get(position);
-        holder.firstName.setText(client.getMainParentFirstName());
-        holder.secondName.setText(client.getMainSecondName());
-        Bitmap bitMap = Utils.getBitMap(client.getMainBlobPhoto());
-        holder.imageView.setImageBitmap(bitMap);
         holder.rootView.setOnClickListener(this);
+
+        holder.first.setText(client.getMainParentFirstName());
+        holder.second.setText(client.getMainSecondName());
+
+        String patronymicName = client.getMainPatronymicName();
+        if (TextUtils.isEmpty(patronymicName)) {
+            holder.patronymic.setVisibility(View.GONE);
+        } else {
+            holder.patronymic.setText(patronymicName);
+            holder.patronymic.setVisibility(View.VISIBLE);
+        }
+
+        holder.phone.setText(client.getMainPhoneNumber());
+
+        Bitmap bitMap = Utils.getBitMap(client.getMainBlobPhoto());
+        holder.photo.setImageBitmap(bitMap);
     }
 
     @Override
@@ -67,19 +85,38 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ClientVi
         mContext.startActivity(intent);
     }
 
-    class ClientViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imageView;
-        private TextView firstName;
-        private TextView secondName;
-        private View rootView;
+    protected class ClientViewHolderNew extends RecyclerView.ViewHolder {
+        @BindView(R.id.client_photo_image_view)
+        protected ImageView photo;
+
+        @BindView(R.id.parent_first_name_edit_text)
+        protected EditText first;
+
+        @BindView(R.id.second_name_edit_text)
+        protected EditText second;
+
+        @BindView(R.id.patronymic_name_edit_text)
+        protected EditText patronymic;
+
+        @BindView(R.id.phone_number_edit_text)
+        protected EditText phone;
+
+        @BindView(R.id.view_holder_root)
+        protected View rootView;
 
 
-        public ClientViewHolder(View itemView) {
+        public ClientViewHolderNew(View itemView) {
             super(itemView);
-            rootView = itemView.findViewById(R.id.view_holder_root);
-            imageView = itemView.findViewById(R.id.find_client_image_view);
-            firstName = itemView.findViewById(R.id.client_first_name_text_iew);
-            secondName = itemView.findViewById(R.id.client_second_name_text_vew);
+            ButterKnife.bind(this, itemView);
+            disable(first);
+            disable(second);
+            disable(patronymic);
+            disable(phone);
+        }
+
+        private void disable(EditText edi) {
+            edi.setFocusable(false);
+            edi.setClickable(false);
         }
     }
 }
