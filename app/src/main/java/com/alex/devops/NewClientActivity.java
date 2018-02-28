@@ -1,6 +1,5 @@
 package com.alex.devops;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -10,12 +9,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.alex.devops.commons.SimpleActivity;
+import com.alex.devops.commons.BaseActivity;
 import com.alex.devops.db.Client;
-import com.alex.devops.utils.Constants;
 import com.alex.devops.views.ClientViewFragment;
 
-public class NewClientActivity extends SimpleActivity
+import java.util.List;
+
+public class NewClientActivity extends BaseActivity
         implements View.OnClickListener,
         ClientViewFragment.OnParentsChanged {
     private FloatingActionButton mAddParentButton;
@@ -40,6 +40,10 @@ public class NewClientActivity extends SimpleActivity
 
         mAddParentButton = (FloatingActionButton) findViewById(R.id.add_second_parent_fab);
         mAddParentButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onSearchFinished(List<Client> clients) {
     }
 
     @Override
@@ -70,11 +74,7 @@ public class NewClientActivity extends SimpleActivity
     }
 
     private void finishWithResult(Client client) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.ARG_NEW_CLIENT, client);
-        Intent intent = new Intent();
-        intent.putExtras(bundle);
-        setResult(RESULT_OK, intent);
+        insertClient(client);
         finish();
     }
 

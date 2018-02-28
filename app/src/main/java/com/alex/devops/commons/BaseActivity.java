@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,20 +13,20 @@ import com.alex.devops.db.Client;
 import com.alex.devops.db.ClientsDataBase;
 import com.alex.devops.utils.ExecutorHelper;
 import com.alex.devops.utils.PermissionHelper;
-import com.alex.devops.commons.SimpleActivity;
 
 import java.util.List;
 
-
-public abstract class BaseActivity extends SimpleActivity {
+public abstract class BaseActivity extends AppCompatActivity {
     private ClientsDataBase mDataBase;
+    private PreferenceService mPrefs;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDataBase = ClientsDataBase.getDataBase(this);
+        mPrefs = new PreferenceService(this);
     }
-
 
     @Override
     protected void onResume() {
@@ -76,6 +77,15 @@ public abstract class BaseActivity extends SimpleActivity {
         });
     }
 
+    public void updateClient(final Client client) {
+        ExecutorHelper.submit(new Runnable() {
+            @Override
+            public void run() {
+                mDataBase.clientDao().update(client);
+            }
+        });
+    }
+
     private void onSearchFinishedOnUiThread(final List<Client> clientsList) {
         runOnUiThread(new Runnable() {
             @Override
@@ -109,6 +119,30 @@ public abstract class BaseActivity extends SimpleActivity {
 
     public abstract void onSearchFinished(List<Client> clients);
 
-    public abstract void onClientSavedSuccess();
+    public void onClientSavedSuccess() {
+        Toast.makeText(this, R.string.client_saved_success, Toast.LENGTH_SHORT).show();
+//        Snackbar.make(mRootView, R.string.client_saved_success, Snackbar.LENGTH_LONG).show();
+    }
 
+    public void storeBackgroundColor(int color) {
+        mPrefs.setBackgroundColor(color);
+    }
+
+    public int getBackgroundColor() {
+        if (mPrefs != null) {
+            return mPrefs.getBackgroundColor();
+        } else {
+            return R.color.colorPrimaryDark;
+        }
+    }
+
+    public void setLastTimeSync() {
+        if (mPrefs != null) {
+            mPrefs.setLastTimeSync();
+        }
+    }
+
+    public long getLastTimeSync() {
+        return mPrefs.getLastTimeSync();
+    }
 }

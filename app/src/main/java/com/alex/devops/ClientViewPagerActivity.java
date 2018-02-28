@@ -12,20 +12,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.alex.devops.commons.SimpleActivity;
+import com.alex.devops.commons.BaseActivity;
 import com.alex.devops.db.Client;
 import com.alex.devops.utils.Constants;
 import com.alex.devops.utils.Utils;
 import com.alex.devops.views.SlideClientFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ClientViewPagerActivity extends SimpleActivity implements OnPageChangeListener {
+public class ClientViewPagerActivity extends BaseActivity implements OnPageChangeListener {
     private ViewPager mViewPager;
     private ArrayList<Client> mClientList;
     @BindView(R.id.pager_last_visited_text_view)
@@ -49,8 +51,14 @@ public class ClientViewPagerActivity extends SimpleActivity implements OnPageCha
         getSupportActionBar().setTitle(R.string.found_clients);
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mClientList = getClients();
+        mCurrentClient = mClientList.get(0);
         mViewPager.setAdapter(new ClientsViewPagerAdapter(getSupportFragmentManager(), mClientList));
         mViewPager.addOnPageChangeListener(this);
+    }
+
+    @Override
+    public void onSearchFinished(List<Client> clients) {
+        // TODO: 2/28/18 think how to avoid these methods
     }
 
     private ArrayList<Client> getClients() {
@@ -60,6 +68,12 @@ public class ClientViewPagerActivity extends SimpleActivity implements OnPageCha
     @Override
     public void onPageSelected(int position) {
         mCurrentClient = mClientList.get(position);
+        updateVisitControls(true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         updateVisitControls(true);
     }
 
@@ -77,13 +91,14 @@ public class ClientViewPagerActivity extends SimpleActivity implements OnPageCha
     public void onVisitClicked() {
         if (!mCurrentClient.hasVisitedToday()) {
             mCurrentClient.incVisitCounter();
+            updateClient(mCurrentClient);
         }
         updateVisitControls(false);
     }
 
     private void showAlreadyVisitedMessage(boolean show) {
         if (show) {
-            Snackbar.make(mRootView, "Client has already visited today!", Snackbar.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.client_already_visited, Toast.LENGTH_SHORT).show();
         }
     }
 

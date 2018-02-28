@@ -3,10 +3,8 @@ package com.alex.devops;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -16,7 +14,6 @@ import android.view.View;
 import com.alex.devops.commons.BaseActivity;
 import com.alex.devops.commons.OnSwipeListener;
 import com.alex.devops.db.Client;
-import com.alex.devops.utils.Constants;
 import com.alex.devops.views.SearchFragment;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
@@ -139,10 +136,6 @@ public class MainActivity extends BaseActivity implements
         updateSearchFragment(clients);
     }
 
-    @Override
-    public void onClientSavedSuccess() {
-        Snackbar.make(mRootView, R.string.client_saved_success, Snackbar.LENGTH_LONG).show();
-    }
 
     @Override
     public boolean onMenuItemActionExpand(MenuItem item) {
@@ -168,17 +161,7 @@ public class MainActivity extends BaseActivity implements
 
     private void starNewClientActivity() {
         Intent intent = new Intent(this, NewClientActivity.class);
-        startActivityForResult(intent, Constants.CREATE_NEW_CLIENT_REQUEST_CODE);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constants.CREATE_NEW_CLIENT_REQUEST_CODE && resultCode == AppCompatActivity.RESULT_OK) {
-            Bundle bundle = data.getExtras();
-            Client client = (Client) bundle.getParcelable(Constants.ARG_NEW_CLIENT);
-            insertClient(client);
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+        startActivity(intent);
     }
 
     @Override

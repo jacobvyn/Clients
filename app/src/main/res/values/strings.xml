@@ -38,4 +38,5 @@
     <string name="last_visited">Last visited:</string>
     <string name="text_example">2014-02-01</string>
     <string name="visit_button">Visit</string>
+    <string name="client_already_visited">Client has already visited today!</string>
 </resources>
