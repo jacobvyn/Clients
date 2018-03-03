@@ -5,27 +5,33 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.alex.devops.R;
 import com.alex.devops.db.Client;
-import com.alex.devops.db.ClientsDataBase;
-import com.alex.devops.utils.ExecutorHelper;
+import com.alex.devops.db.DataBaseWrapper;
+import com.alex.devops.net.HttpService;
 import com.alex.devops.utils.PermissionHelper;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public abstract class BaseActivity extends AppCompatActivity {
-    private ClientsDataBase mDataBase;
+public abstract class BaseActivity extends AppCompatActivity
+        implements HttpService.Callback,
+        DataBaseWrapper.OnDataBaseChangedListener {
     private PreferenceService mPrefs;
-
+    private DataBaseWrapper mDataBase;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDataBase = ClientsDataBase.getDataBase(this);
+        mDataBase = DataBaseWrapper.getInstance(this);
         mPrefs = new PreferenceService(this);
+    }
+
+    protected void setDataBaseListener(DataBaseWrapper.OnDataBaseChangedListener listener) {
+        if (mDataBase != null) {
+            mDataBase.setDataBaseListener(listener);
+        }
     }
 
     @Override
@@ -44,84 +50,81 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mDataBase = null;
+    public void insertClient(Client client) {
+        if (mDataBase != null) {
+            mDataBase.insertClient(client);
+            mDataBase.insertClientRemote(client, this);
+        }
     }
 
-    public void insertClient(final Client client) {
-        ExecutorHelper.submit(new Runnable() {
-            @Override
-            public void run() {
-                mDataBase.clientDao().insert(client);
-                Log.e("+++ insertClient", client.getMainParentFirstName());
-                onClientSavedSuccess();
-            }
-        });
+    public void findClient(String secondName) {
+        if (mDataBase != null) {
+            mDataBase.findClient(secondName);
+        }
     }
 
-    public void searchClient(final String secondName) {
-        ExecutorHelper.submit(new Runnable() {
-            @Override
-            public void run() {
-                List<Client> clientsList;
-                if (secondName != null && secondName.equalsIgnoreCase("all")) {
-                    clientsList = mDataBase.clientDao().getAllClients();
-                } else {
-                    clientsList = mDataBase.clientDao().getClientsLike("%" + secondName + "%");
-                }
-                onSearchFinishedOnUiThread(clientsList);
-            }
-        });
+    public void getAllClients() {
+        if (mDataBase != null) {
+            mDataBase.getAllClients();
+        }
     }
 
-    public void updateClient(final Client client) {
-        ExecutorHelper.submit(new Runnable() {
-            @Override
-            public void run() {
-                mDataBase.clientDao().update(client);
-            }
-        });
+    public void updateClient(Client client) {
+        if (mDataBase != null) {
+            mDataBase.updateClient(client);
+        }
     }
 
-    private void onSearchFinishedOnUiThread(final List<Client> clientsList) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                onSearchFinished(clientsList);
-            }
-        });
-    }
 
-    public void getAllClientsAsync() {
-        ExecutorHelper.submit(new Runnable() {
-            @Override
-            public void run() {
-                List<Client> clientsList = mDataBase.clientDao().getAllClients();
-                Log.e("+++ ALL", clientsList.toString());
-            }
-        });
+    public void findClientByIds(ArrayList<Integer> clientsIds) {
+        if (mDataBase != null) {
+            mDataBase.findClientByIds(clientsIds);
+        }
     }
 
     protected void syncRemoteDB() {
-        ExecutorHelper.submit(new Runnable() {
-            @Override
-            public void run() {
-                List<Client> nonSyncedClients = mDataBase.clientDao().getAllClientsAfter(getLastTimeSync());
-                // TODO: 2/23/18  syncing logic here
-                setLastTimeSync();
-            }
-        });
+        if (mDataBase != null) {
+            mDataBase.syncRemoteDB(getLastTimeSync());
+        }
+        setLastTimeSync();
         Snackbar.make(findViewById(R.id.root_view), R.string.syncing, Snackbar.LENGTH_SHORT).show();
     }
 
-    public abstract void onSearchFinished(List<Client> clients);
-
+    @Override
     public void onClientSavedSuccess() {
-        Toast.makeText(this, R.string.client_saved_success, Toast.LENGTH_SHORT).show();
 //        Snackbar.make(mRootView, R.string.client_saved_success, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onRequestSuccess() {
+        Toast.makeText(this, "Client sent to server success", Toast.LENGTH_SHORT).show();
+        // TODO: 3/1/18
+
+    }
+
+    @Override
+    public void onRequestFailed(String message) {
+        Toast.makeText(this, "Client sent to server failed", Toast.LENGTH_SHORT).show();
+        // TODO: 3/1/18
+    }
+
+    @Override
+    public void onSyncResult() {
+        Toast.makeText(this, "Sync success", Toast.LENGTH_SHORT).show();
+        // TODO: 3/1/18
+    }
+
+    public void setMaxVisitAmount(int visitAmount) {
+        if (mPrefs != null) {
+            mPrefs.setMaxVisitAmount(visitAmount);
+        }
+    }
+
+    public int getMaxVisitAmount() {
+        if (mPrefs != null) {
+            return mPrefs.getMaxVisitAmount();
+        }
+        return 1;
     }
 
     public void storeBackgroundColor(int color) {

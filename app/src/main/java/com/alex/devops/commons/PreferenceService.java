@@ -9,10 +9,9 @@ import com.alex.devops.R;
 import java.util.Date;
 
 public class PreferenceService {
-    public static final String BACKGROUND_COLOR = "BACKGROUND_COLOR";
-    public static final String LAST_SYNC = "LAST_SYNC";
-
-
+    private static final String BACKGROUND_COLOR = "BACKGROUND_COLOR";
+    private static final String LAST_SYNC = "LAST_SYNC";
+    private static final String MAX_VISIT_AMOUNT = "MAX_VISIT_AMOUNT";
     private final SharedPreferences mPrefs;
 
     public PreferenceService(Context context) {
@@ -37,5 +36,13 @@ public class PreferenceService {
 
     public long getLastTimeSync() {
         return mPrefs.getLong(LAST_SYNC, System.currentTimeMillis());
+    }
+
+    public void setMaxVisitAmount(int visitAmount) {
+        mPrefs.edit().putInt(MAX_VISIT_AMOUNT, visitAmount).apply();
+    }
+
+    public int getMaxVisitAmount() {
+        return mPrefs.getInt(MAX_VISIT_AMOUNT, 1);
     }
 }

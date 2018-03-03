@@ -3,6 +3,7 @@ package com.alex.devops;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -15,17 +16,23 @@ import com.alex.devops.views.ClientViewFragment;
 
 import java.util.List;
 
-public class NewClientActivity extends BaseActivity
-        implements View.OnClickListener,
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class NewClientActivity extends BaseActivity implements View.OnClickListener,
         ClientViewFragment.OnParentsChanged {
-    private FloatingActionButton mAddParentButton;
+
+    @BindView(R.id.add_second_parent_fab)
+    protected FloatingActionButton mAddParentButton;
+    @BindView(R.id.new_client_root_view)
+    protected View mRootView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_new_client_layout);
-        findViewById(R.id.new_client_root_view).setBackgroundColor(getBackgroundColor());
+        ButterKnife.bind(this);
+        mRootView.setBackgroundColor(getBackgroundColor());
         Toolbar toolbar = (Toolbar) findViewById(R.id.child_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -38,7 +45,6 @@ public class NewClientActivity extends BaseActivity
                 .add(R.id.client_view_root_layout, clientFragment, ClientViewFragment.TAG)
                 .commit();
 
-        mAddParentButton = (FloatingActionButton) findViewById(R.id.add_second_parent_fab);
         mAddParentButton.setOnClickListener(this);
     }
 

@@ -10,9 +10,9 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.alex.devops.utils.Utils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.Calendar;
-import java.util.Date;
+import org.json.JSONObject;
 
 @Entity(tableName = "clients")
 public class Client implements Parcelable {
@@ -295,5 +295,9 @@ public class Client implements Parcelable {
 
     public boolean hasSecondParent() {
         return !TextUtils.isEmpty(mSecondParentFirstName);
+    }
+
+    public String toJsonString() {
+        return Utils.toJson(this);
     }
 }

@@ -21,24 +21,31 @@ import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends BaseActivity implements
         SearchView.OnQueryTextListener,
         MenuItem.OnActionExpandListener,
         View.OnClickListener,
         OnSwipeListener.OnSwipe,
-        ColorPickerClickListener {
-    private View mRootView;
-    protected MenuItem mSearchMenuItem;
+        ColorPickerClickListener, VisitSettingsFragment.Listener {
 
+    @BindView(R.id.root_view)
+    protected View mRootView;
+    protected MenuItem mSearchMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_layour);
+        setDataBaseListener(this);
+        ButterKnife.bind(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         findViewById(R.id.new_client_button).setOnClickListener(this);
-        mRootView = findViewById(R.id.root_view);
         mRootView.setOnTouchListener(new OnSwipeListener(this, this));
         setBackgroundColor(getBackgroundColor());
     }
@@ -65,10 +72,20 @@ public class MainActivity extends BaseActivity implements
                 chooseColor();
                 return true;
             }
+            case R.id.action_settings: {
+                setMaxVisits();
+                return true;
+            }
             default: {
                 return super.onOptionsItemSelected(item);
             }
         }
+    }
+
+    private void setMaxVisits() {
+        VisitSettingsFragment fragment = VisitSettingsFragment.newInstance();
+        fragment.setListener(this);
+        fragment.show(getFragmentManager(), VisitSettingsFragment.TAG);
     }
 
     private void chooseColor() {
@@ -99,7 +116,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     public boolean onQueryTextChange(String newText) {
         if (newText.length() >= 1) {
-            searchClient(newText);
+            findClient(newText);
         } else {
             clearSearch();
         }
@@ -117,9 +134,10 @@ public class MainActivity extends BaseActivity implements
         findViewById(R.id.root_view).postDelayed(new Runnable() {
             @Override
             public void run() {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.add(R.id.search_container_view, SearchFragment.newInstance(), SearchFragment.TAG);
-                transaction.commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.search_container_view, SearchFragment.newInstance(), SearchFragment.TAG)
+                        .commit();
             }
         }, 100);
     }
@@ -135,7 +153,6 @@ public class MainActivity extends BaseActivity implements
     public void onSearchFinished(List<Client> clients) {
         updateSearchFragment(clients);
     }
-
 
     @Override
     public boolean onMenuItemActionExpand(MenuItem item) {
@@ -187,5 +204,10 @@ public class MainActivity extends BaseActivity implements
         if (mSearchMenuItem != null) {
             mSearchMenuItem.expandActionView();
         }
+    }
+
+    @Override
+    public void onOkPressed(int count) {
+        setMaxVisitAmount(count);
     }
 }

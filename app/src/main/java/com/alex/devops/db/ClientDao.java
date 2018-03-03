@@ -5,6 +5,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Dao
@@ -26,4 +27,7 @@ public interface ClientDao {
             " second_parent_second_name LIKE  :search OR second_phone_number LIKE :search")
     List<Client> getClientsLike(String search);
 
+
+    @Query("SELECT * FROM clients WHERE id IN (:clientsIds)")
+    List<Client> findClientByIds(List<Integer> clientsIds);
 }

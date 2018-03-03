@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.alex.devops.ClientViewPagerActivity;
 import com.alex.devops.R;
@@ -24,25 +23,26 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ClientViewHolderNew> implements View.OnClickListener {
+public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ClientViewHolder> implements View.OnClickListener {
     private final List<Client> mClientList = new ArrayList<Client>();
     private Context mContext;
+    private OnItemClickListener mListener;
 
     public ClientsAdapter(Context context) {
         mContext = context;
     }
 
     @Override
-    public ClientViewHolderNew onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ClientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycle_view_holder_new, parent, false);
-        return new ClientViewHolderNew(view);
-
+        return new ClientViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ClientViewHolderNew holder, int position) {
+    public void onBindViewHolder(ClientViewHolder holder, int position) {
         Client client = mClientList.get(position);
-        holder.rootView.setOnClickListener(this);
+        setOnclickListener(holder.rootView, position);
+
 
         holder.first.setText(client.getMainParentFirstName());
         holder.second.setText(client.getMainSecondName());
@@ -59,6 +59,17 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ClientVi
 
         Bitmap bitMap = Utils.getBitMap(client.getMainBlobPhoto());
         holder.photo.setImageBitmap(bitMap);
+    }
+
+    private void setOnclickListener(View view, final int currPosition) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mListener != null) {
+                    mListener.onItemClicked(currPosition);
+                }
+            }
+        });
     }
 
     @Override
@@ -79,33 +90,41 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ClientVi
 
     @Override
     public void onClick(View view) {
-        Intent intent = new Intent(mContext, ClientViewPagerActivity.class);
-        ArrayList<Client> clients = new ArrayList<>(mClientList);
-        intent.putParcelableArrayListExtra(Constants.ARG_VIEW_PAGER_CLIENTS, clients);
-        mContext.startActivity(intent);
+
     }
 
-    protected class ClientViewHolderNew extends RecyclerView.ViewHolder {
+    public void setListener(OnItemClickListener listener) {
+        this.mListener = listener;
+    }
+
+    public ArrayList<Client> getClients() {
+        return new ArrayList<Client>(mClientList);
+    }
+
+    public ArrayList<Integer> getClientsIds() {
+        ArrayList<Integer> idsList = new ArrayList<Integer>();
+        for (Client client : mClientList) {
+            idsList.add(client.getId());
+        }
+        return idsList;
+    }
+
+    protected class ClientViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.client_photo_image_view)
         protected ImageView photo;
-
         @BindView(R.id.parent_first_name_edit_text)
         protected EditText first;
-
         @BindView(R.id.second_name_edit_text)
         protected EditText second;
-
         @BindView(R.id.patronymic_name_edit_text)
         protected EditText patronymic;
-
         @BindView(R.id.phone_number_edit_text)
         protected EditText phone;
-
         @BindView(R.id.view_holder_root)
         protected View rootView;
 
 
-        public ClientViewHolderNew(View itemView) {
+        public ClientViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             Utils.disableView(first);
@@ -113,5 +132,9 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ClientVi
             Utils.disableView(patronymic);
             Utils.disableView(phone);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClicked(int currPosition);
     }
 }

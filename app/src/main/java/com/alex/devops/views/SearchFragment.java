@@ -1,5 +1,6 @@
 package com.alex.devops.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,12 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alex.devops.ClientViewPagerActivity;
 import com.alex.devops.R;
 import com.alex.devops.db.Client;
+import com.alex.devops.utils.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements ClientsAdapter.OnItemClickListener {
     public static String TAG = SearchFragment.class.getName();
     private RecyclerView mRecycleView;
     private ClientsAdapter mClientsAdapter;
@@ -30,6 +34,7 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mClientsAdapter = new ClientsAdapter(getActivity());
+        mClientsAdapter.setListener(this);
         return inflater.inflate(R.layout.search_fragment_layout, container, false);
     }
 
@@ -68,5 +73,16 @@ public class SearchFragment extends Fragment {
     public void clear() {
         mClientsAdapter.clear();
         mNoResultView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onItemClicked(int currPosition) {
+        Intent intent = new Intent(getContext(), ClientViewPagerActivity.class);
+        ArrayList<Integer> clientsIds = mClientsAdapter.getClientsIds();
+        intent.putIntegerArrayListExtra(Constants.ARG_VIEW_PAGER_CLIENTS_IDS, clientsIds);
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constants.ARG_CURRENT_POSITION, currPosition);
+        intent.putExtras(bundle);
+        getContext().startActivity(intent);
     }
 }
