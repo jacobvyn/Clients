@@ -39,4 +39,9 @@
     <string name="text_example">2014-02-01</string>
     <string name="visit_button">Visit</string>
     <string name="client_already_visited">Client has already visited today!</string>
+    <string name="settings">Settings</string>
+    <string name="max_visits">Set Max visits</string>
+    <string name="max_visits_hint">Max visits</string>
+    <string name="visit_amount_error">Visits amount should be more than 0</string>
+    <string name="reset_visit_counter">Reset visit counter</string>
 </resources>

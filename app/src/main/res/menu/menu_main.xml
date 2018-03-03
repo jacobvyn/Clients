@@ -11,15 +11,23 @@
         app:showAsAction="ifRoom|collapseActionView" />
 
     <item
+        android:id="@+id/action_color_pick"
+        android:icon="@drawable/ic_action_refresh"
+        android:orderInCategory="200"
+        android:title="@string/choose_color"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_sync"
         android:icon="@drawable/ic_action_refresh"
         android:orderInCategory="200"
         android:title="@string/sync"
         app:showAsAction="never" />
+
     <item
-        android:id="@+id/action_color_pick"
+        android:id="@+id/action_settings"
         android:icon="@drawable/ic_action_refresh"
         android:orderInCategory="200"
-        android:title="@string/choose_color"
+        android:title="@string/settings"
         app:showAsAction="never" />
 </menu>

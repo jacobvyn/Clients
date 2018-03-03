@@ -39,4 +39,9 @@
     <string name="text_example">2014-02-01</string>
     <string name="visit_button">Visit</string>
     <string name="client_already_visited">Клиент уже был сегодня!</string>
+    <string name="settings">Настройки</string>
+    <string name="max_visits">Установите max кол-во визитов</string>
+    <string name="max_visits_hint">кол-во визитов</string>
+    <string name="visit_amount_error">Кол-во визитов должно быть больше 0.</string>
+    <string name="reset_visit_counter">Сбросить счетчик визитов</string>
 </resources>

@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.alex.devops.MainActivity">
+
+    <item
+        android:id="@+id/action_reset_visit_counter"
+        android:icon="@drawable/ic_action_accept"
+        android:orderInCategory="200"
+        android:title="@string/reset_visit_counter"
+        app:showAsAction="never" />
+</menu>
