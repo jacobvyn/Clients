@@ -1,6 +1,7 @@
 package com.alex.devops.db;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
@@ -30,4 +31,10 @@ public interface ClientDao {
 
     @Query("SELECT * FROM clients WHERE id IN (:clientsIds)")
     List<Client> findClientByIds(List<Integer> clientsIds);
+
+    @Query("DELETE FROM clients")
+    void deleteAll();
+
+    @Insert
+    void insertAll(List<Client> clients);
 }

@@ -53,6 +53,11 @@ public class NewClientActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
+    public void onReceivedClientsSuccess(List<Client> list) {
+
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.new_cleint_menu, menu);
         return true;
@@ -73,9 +78,9 @@ public class NewClientActivity extends BaseActivity implements View.OnClickListe
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.client_view_root_layout);
         if (fragment instanceof ClientViewFragment) {
             ClientViewFragment clientFragment = (ClientViewFragment) fragment;
-            if (clientFragment.checkInputData()) {
+//            if (clientFragment.checkInputData()) {
                 finishWithResult(clientFragment.getClient());
-            }
+//            }
         }
     }
 

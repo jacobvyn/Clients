@@ -98,6 +98,11 @@ public class ClientViewPagerActivity extends BaseActivity implements OnPageChang
         updateVisitControls(true);
     }
 
+    @Override
+    public void onReceivedClientsSuccess(List<Client> list) {
+
+    }
+
     private ArrayList<Integer> getClientsIds() {
         return getIntent().getIntegerArrayListExtra(Constants.ARG_VIEW_PAGER_CLIENTS_IDS);
     }

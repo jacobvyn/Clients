@@ -44,4 +44,8 @@
     <string name="max_visits_hint">кол-во визитов</string>
     <string name="visit_amount_error">Кол-во визитов должно быть больше 0.</string>
     <string name="reset_visit_counter">Сбросить счетчик визитов</string>
+    <string name="total_reload">Перегрузить базу</string>
+    <string name="no_connection">Нет интернет соединения, попробуйте позже.</string>
+    <string name="data_base_reload">Перезагрузка базы</string>
+    <string name="notice_db_reload">Вы уверены, что хотите полностью перезагрузить базу данных?</string>
 </resources>

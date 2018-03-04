@@ -3,8 +3,10 @@ package com.alex.devops;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -76,10 +78,34 @@ public class MainActivity extends BaseActivity implements
                 setMaxVisits();
                 return true;
             }
+            case R.id.action_reload_db: {
+                reloadDB();
+                return true;
+            }
             default: {
                 return super.onOptionsItemSelected(item);
             }
         }
+    }
+
+    private void reloadDB() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.data_base_reload);
+        builder.setMessage(R.string.notice_db_reload);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                getAllFromServer();
+            }
+        });
+        builder.setNegativeButton(R.string.abort, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void setMaxVisits() {
@@ -136,6 +162,7 @@ public class MainActivity extends BaseActivity implements
             public void run() {
                 getSupportFragmentManager()
                         .beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .add(R.id.search_container_view, SearchFragment.newInstance(), SearchFragment.TAG)
                         .commit();
             }
@@ -209,5 +236,10 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onOkPressed(int count) {
         setMaxVisitAmount(count);
+    }
+
+    @Override
+    public void onReceivedClientsSuccess(List<Client> list) {
+        replaceClients(list);
     }
 }

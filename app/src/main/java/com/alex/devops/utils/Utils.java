@@ -19,6 +19,7 @@ import com.alex.devops.R;
 import com.alex.devops.db.Client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -30,6 +31,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class Utils {
     public static final String LOG_TAG = Utils.class.getSimpleName();
@@ -253,6 +255,16 @@ public class Utils {
         return "";
     }
 
+    public static String toJson(List<Client> clientList) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(clientList);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     public static byte[] listToByteArr(ArrayList<Client> list) {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -284,5 +296,11 @@ public class Utils {
             e.printStackTrace();
         }
         return 1;
+    }
+
+    public static List<Client> parseResponse(String string) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        CollectionType type = mapper.getTypeFactory().constructCollectionType(List.class, Client.class);
+        return mapper.readValue(string, type);
     }
 }

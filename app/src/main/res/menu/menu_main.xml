@@ -23,6 +23,12 @@
         android:orderInCategory="200"
         android:title="@string/sync"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_reload_db"
+        android:icon="@drawable/ic_action_refresh"
+        android:orderInCategory="200"
+        android:title="@string/total_reload"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_settings"

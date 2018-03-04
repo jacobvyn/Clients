@@ -44,4 +44,8 @@
     <string name="max_visits_hint">Max visits</string>
     <string name="visit_amount_error">Visits amount should be more than 0</string>
     <string name="reset_visit_counter">Reset visit counter</string>
+    <string name="total_reload">Total reload</string>
+    <string name="no_connection">No internet connection, try later.</string>
+    <string name="data_base_reload">Data base reload</string>
+    <string name="notice_db_reload">Are you sure, that you want to reload your data base?</string>
 </resources>

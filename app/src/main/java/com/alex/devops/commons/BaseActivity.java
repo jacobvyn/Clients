@@ -10,13 +10,15 @@ import android.widget.Toast;
 import com.alex.devops.R;
 import com.alex.devops.db.Client;
 import com.alex.devops.db.DataBaseWrapper;
-import com.alex.devops.net.HttpService;
+import com.alex.devops.net.RemoteSync;
 import com.alex.devops.utils.PermissionHelper;
+import com.alex.devops.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BaseActivity extends AppCompatActivity
-        implements HttpService.Callback,
+        implements RemoteSync.Callback,
         DataBaseWrapper.OnDataBaseChangedListener {
     private PreferenceService mPrefs;
     private DataBaseWrapper mDataBase;
@@ -53,7 +55,17 @@ public abstract class BaseActivity extends AppCompatActivity
     public void insertClient(Client client) {
         if (mDataBase != null) {
             mDataBase.insertClient(client);
-            mDataBase.insertClientRemote(client, this);
+            sendToServer(client);
+        }
+    }
+
+    private void sendToServer(Client client) {
+        if (Utils.isOnline(this)) {
+            if (mDataBase != null) {
+                mDataBase.insertClientRemote(client);
+            }
+        } else {
+            Snackbar.make(findViewById(R.id.root_view), R.string.no_connection, Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -75,6 +87,22 @@ public abstract class BaseActivity extends AppCompatActivity
         }
     }
 
+    public void replaceClients(List<Client> clients) {
+        if (mDataBase != null) {
+            mDataBase.replaceClients(clients);
+        }
+    }
+
+    public void getAllFromServer() {
+        if (Utils.isOnline(this)) {
+            if (mDataBase != null) {
+                mDataBase.getAllFromServer();
+            }
+        } else {
+            Snackbar.make(findViewById(R.id.root_view), R.string.no_connection, Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
 
     public void findClientByIds(ArrayList<Integer> clientsIds) {
         if (mDataBase != null) {
@@ -83,11 +111,15 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
     protected void syncRemoteDB() {
-        if (mDataBase != null) {
-            mDataBase.syncRemoteDB(getLastTimeSync());
+        if (Utils.isOnline(this)) {
+            if (mDataBase != null) {
+                mDataBase.sendToServer(getLastTimeSync());
+            }
+            setLastTimeSyncNow();
+            Snackbar.make(findViewById(R.id.root_view), R.string.syncing, Snackbar.LENGTH_SHORT).show();
+        } else {
+            Snackbar.make(findViewById(R.id.root_view), R.string.no_connection, Snackbar.LENGTH_SHORT).show();
         }
-        setLastTimeSync();
-        Snackbar.make(findViewById(R.id.root_view), R.string.syncing, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -139,7 +171,7 @@ public abstract class BaseActivity extends AppCompatActivity
         }
     }
 
-    public void setLastTimeSync() {
+    public void setLastTimeSyncNow() {
         if (mPrefs != null) {
             mPrefs.setLastTimeSync();
         }
