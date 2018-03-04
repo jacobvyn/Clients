@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.alex.devops.commons.BaseActivity;
 import com.alex.devops.net.RemoteSync;
@@ -42,7 +41,6 @@ public class DataBaseWrapper implements RemoteSync.Callback {
             @Override
             public void run() {
                 mDataBase.clientDao().insert(client);
-                Log.e("+++ insertClient", client.getMainParentFirstName());
                 onClientSavedSuccess();
             }
         };
@@ -103,8 +101,7 @@ public class DataBaseWrapper implements RemoteSync.Callback {
             public void run() {
                 List<Client> nonSyncedClients = mDataBase.clientDao().getAllClientsAfter(lastTimeSync);
                 if (nonSyncedClients.size() > 0) {
-                    mRemoteSync.doPostRequest(nonSyncedClients);
-                    onSyncResult();
+                    mRemoteSync.doPostRequest(nonSyncedClients, true);
                 }
             }
         };
@@ -126,7 +123,7 @@ public class DataBaseWrapper implements RemoteSync.Callback {
         ExecutorHelper.submit(new Runnable() {
             @Override
             public void run() {
-                mRemoteSync.doPostRequest(Arrays.asList(client));
+                mRemoteSync.doPostRequest(Arrays.asList(client), false);
             }
         });
 
@@ -199,9 +196,10 @@ public class DataBaseWrapper implements RemoteSync.Callback {
     }
 
     @Override
-    public void onRequestSuccess() {
-//        setLastTimeSyncNow();
-//        Toast.makeText(this, "Client sent to server success", Toast.LENGTH_SHORT).show();
+    public void onRequestSuccess(boolean sync) {
+        if (sync) {
+            onSyncResult();
+        }
     }
 
     @Override

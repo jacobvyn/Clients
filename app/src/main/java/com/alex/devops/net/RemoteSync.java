@@ -30,7 +30,7 @@ public class RemoteSync {
         mCallback = callback;
         mHandler = new Handler((Looper.getMainLooper()));
         okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(new MyInterceptor())
+                .addInterceptor(new AuthInterceptor())
                 .build();
     }
 
@@ -58,7 +58,7 @@ public class RemoteSync {
         return list;
     }
 
-    public void doPostRequest(List<Client> clientList) {
+    public void doPostRequest(List<Client> clientList, boolean sync) {
         try {
             Request request = new Request.Builder()
                     .url(Constants.URL)
@@ -66,7 +66,7 @@ public class RemoteSync {
                     .build();
 
             Response response = okHttpClient.newCall(request).execute();
-            handleResponse(response);
+            handleResponse(response, sync);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -77,20 +77,20 @@ public class RemoteSync {
         return RequestBody.create(JSON, json);
     }
 
-    private void handleResponse(Response response) {
+    private void handleResponse(Response response, boolean sync) {
         if (response.code() == HttpURLConnection.HTTP_OK) {
-            onRequestSuccess();
+            onRequestSuccess(sync);
         } else {
             onRequestFailed(response.message());
         }
     }
 
-    private void onRequestSuccess() {
+    private void onRequestSuccess(final boolean sync) {
         runOnUi(new Runnable() {
             @Override
             public void run() {
                 if (mCallback != null) {
-                    mCallback.onRequestSuccess();
+                    mCallback.onRequestSuccess(sync);
                 }
             }
         });
@@ -114,7 +114,7 @@ public class RemoteSync {
     }
 
     public interface Callback {
-        void onRequestSuccess();
+        void onRequestSuccess(boolean sync);
 
         void onRequestFailed(String message);
     }

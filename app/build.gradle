@@ -14,8 +14,14 @@ android {
     }
     buildTypes {
         release {
+            buildConfigField("String", "USER_NAME", KEYSTORE_USER_NAME)
+            buildConfigField("String", "PASSWORD", KEYSTORE_PASSWORD)
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            buildConfigField("String", "USER_NAME", KEYSTORE_USER_NAME)
+            buildConfigField("String", "PASSWORD", KEYSTORE_PASSWORD)
         }
     }
     lintOptions {

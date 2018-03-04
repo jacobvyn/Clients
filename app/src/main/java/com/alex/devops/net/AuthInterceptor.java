@@ -2,7 +2,7 @@ package com.alex.devops.net;
 
 import android.util.Base64;
 
-import com.alex.devops.utils.Constants;
+import com.alex.devops.BuildConfig;
 
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-class MyInterceptor implements Interceptor {
+class AuthInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         String authorValue = encodeCredentialsForBasicAuthorization();
@@ -25,7 +25,7 @@ class MyInterceptor implements Interceptor {
 
 
     private String encodeCredentialsForBasicAuthorization() {
-        final String userAndPassword = Constants.USER_NAME + ":" + Constants.USER_PASS;
+        final String userAndPassword = BuildConfig.USER_NAME + ":" + BuildConfig.PASSWORD;
         return "Basic " + Base64.encodeToString(userAndPassword.getBytes(), Base64.NO_WRAP);
     }
 }

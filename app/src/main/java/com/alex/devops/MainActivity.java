@@ -193,6 +193,7 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onSyncResult() {
+        super.onSyncResult();
         Snackbar.make(mRootView, R.string.syncing_finished, Snackbar.LENGTH_LONG).show();
     }
 

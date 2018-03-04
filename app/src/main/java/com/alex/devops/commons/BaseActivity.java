@@ -127,8 +127,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     public void onSyncResult() {
-//        Toast.makeText(this, "Sync success", Toast.LENGTH_SHORT).show();
-        // TODO: 3/1/18
+        setLastTimeSyncNow();
     }
 
     public void setMaxVisitAmount(int visitAmount) {
