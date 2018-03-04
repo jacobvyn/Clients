@@ -3,21 +3,19 @@ package com.alex.devops.db;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.alex.devops.commons.BaseActivity;
 import com.alex.devops.net.RemoteSync;
 import com.alex.devops.utils.ExecutorHelper;
-import com.alex.devops.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 
-public class DataBaseWrapper {
+public class DataBaseWrapper implements RemoteSync.Callback {
     private static DataBaseWrapper sInstance;
 
     private volatile OnDataBaseChangedListener mListener;
@@ -28,7 +26,7 @@ public class DataBaseWrapper {
 
     private DataBaseWrapper(BaseActivity activity) {
         mDataBase = ClientsDataBase.getDataBase(activity);
-        mRemoteSync = new RemoteSync(activity);
+        mRemoteSync = new RemoteSync(this);
         mHandler = new Handler((Looper.getMainLooper()));
     }
 
@@ -104,8 +102,10 @@ public class DataBaseWrapper {
             @Override
             public void run() {
                 List<Client> nonSyncedClients = mDataBase.clientDao().getAllClientsAfter(lastTimeSync);
-                mRemoteSync.doPostRequest(nonSyncedClients);
-                onSyncResult();
+                if (nonSyncedClients.size() > 0) {
+                    mRemoteSync.doPostRequest(nonSyncedClients);
+                    onSyncResult();
+                }
             }
         };
         ExecutorHelper.submit(task);
@@ -139,6 +139,7 @@ public class DataBaseWrapper {
                 mDataBase.clientDao().deleteAll();
                 mDataBase.clientDao().insertAll(clients);
                 onSearchFinished(clients);
+                onSyncResult();
             }
         });
     }
@@ -197,6 +198,17 @@ public class DataBaseWrapper {
         mListener = listener;
     }
 
+    @Override
+    public void onRequestSuccess() {
+//        setLastTimeSyncNow();
+//        Toast.makeText(this, "Client sent to server success", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRequestFailed(String message) {
+//        Toast.makeText(this, "Client sent to server failed", Toast.LENGTH_SHORT).show();
+        // TODO: 3/1/18
+    }
 
     public interface OnDataBaseChangedListener {
         void onClientSavedSuccess();

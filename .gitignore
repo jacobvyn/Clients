@@ -11,3 +11,4 @@
 /app/gradle/
 /app/.idea/
 /gradle/
+/app/gradle.properties

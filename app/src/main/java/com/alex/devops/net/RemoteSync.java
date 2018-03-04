@@ -29,7 +29,9 @@ public class RemoteSync {
     public RemoteSync(Callback callback) {
         mCallback = callback;
         mHandler = new Handler((Looper.getMainLooper()));
-        okHttpClient = new OkHttpClient();
+        okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new MyInterceptor())
+                .build();
     }
 
     public List<Client> getAllClients() {
@@ -73,10 +75,6 @@ public class RemoteSync {
     private RequestBody retrieveBody(List<Client> clientList) {
         String json = Utils.toJson(clientList);
         return RequestBody.create(JSON, json);
-    }
-
-    private RequestBody retrieveBody(Client client) {
-        return RequestBody.create(JSON, client.toJsonString());
     }
 
     private void handleResponse(Response response) {

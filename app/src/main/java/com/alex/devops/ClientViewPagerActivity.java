@@ -47,7 +47,6 @@ public class ClientViewPagerActivity extends BaseActivity implements OnPageChang
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clients_view_pager_layout);
-        setDataBaseListener(this);
         ButterKnife.bind(this);
         mMaxVisits = getMaxVisitAmount();
         findViewById(R.id.view_pager_root_view).setBackgroundColor(getBackgroundColor());
@@ -58,6 +57,13 @@ public class ClientViewPagerActivity extends BaseActivity implements OnPageChang
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mViewPager.addOnPageChangeListener(this);
         findClientByIds(getClientsIds());
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setDataBaseListener(this);
     }
 
     @Override
@@ -93,14 +99,9 @@ public class ClientViewPagerActivity extends BaseActivity implements OnPageChang
     public void onSearchFinished(List<Client> clients) {
         mClientList = clients;
         mViewPager.setAdapter(new ClientsViewPagerAdapter(getSupportFragmentManager(), mClientList));
-        int current = retrieveCurrentPosition(getIntent());
-        mCurrentClient = mClientList.get(current);
+//        int current = retrieveCurrentPosition(getIntent());
+        mCurrentClient = mClientList.get(0);
         updateVisitControls(true);
-    }
-
-    @Override
-    public void onReceivedClientsSuccess(List<Client> list) {
-
     }
 
     private ArrayList<Integer> getClientsIds() {
@@ -142,7 +143,7 @@ public class ClientViewPagerActivity extends BaseActivity implements OnPageChang
 
     private void checkMaxVisitCounter() {
         int clientVisit = mCurrentClient.getVisitCounter();
-        if (clientVisit > mMaxVisits) {
+        if (clientVisit >= mMaxVisits) {
             enableVisitButton(false);
         }
     }

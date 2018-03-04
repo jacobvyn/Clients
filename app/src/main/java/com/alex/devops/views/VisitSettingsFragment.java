@@ -1,4 +1,4 @@
-package com.alex.devops;
+package com.alex.devops.views;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.alex.devops.R;
 import com.alex.devops.utils.Utils;
 
 import butterknife.BindView;
@@ -91,7 +92,7 @@ public class VisitSettingsFragment extends DialogFragment implements View.OnClic
 
     private void onOkPressed(int visitCount) {
         if (mListener != null) {
-            mListener.onOkPressed(visitCount);
+            mListener.onSetVisitCount(visitCount);
         }
     }
 
@@ -101,6 +102,6 @@ public class VisitSettingsFragment extends DialogFragment implements View.OnClic
     }
 
     public interface Listener {
-        void onOkPressed(int count);
+        void onSetVisitCount(int count);
     }
 }

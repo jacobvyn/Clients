@@ -18,8 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseActivity extends AppCompatActivity
-        implements RemoteSync.Callback,
-        DataBaseWrapper.OnDataBaseChangedListener {
+        implements DataBaseWrapper.OnDataBaseChangedListener {
     private PreferenceService mPrefs;
     private DataBaseWrapper mDataBase;
 
@@ -93,10 +92,11 @@ public abstract class BaseActivity extends AppCompatActivity
         }
     }
 
-    public void getAllFromServer() {
+    public void getAllClientsFromServer() {
         if (Utils.isOnline(this)) {
             if (mDataBase != null) {
                 mDataBase.getAllFromServer();
+                Snackbar.make(findViewById(R.id.root_view), R.string.syncing, Snackbar.LENGTH_LONG).show();
             }
         } else {
             Snackbar.make(findViewById(R.id.root_view), R.string.no_connection, Snackbar.LENGTH_SHORT).show();
@@ -110,12 +110,11 @@ public abstract class BaseActivity extends AppCompatActivity
         }
     }
 
-    protected void syncRemoteDB() {
+    protected void sendNewlyCreatedClientsToServer() {
         if (Utils.isOnline(this)) {
             if (mDataBase != null) {
                 mDataBase.sendToServer(getLastTimeSync());
             }
-            setLastTimeSyncNow();
             Snackbar.make(findViewById(R.id.root_view), R.string.syncing, Snackbar.LENGTH_SHORT).show();
         } else {
             Snackbar.make(findViewById(R.id.root_view), R.string.no_connection, Snackbar.LENGTH_SHORT).show();
@@ -124,25 +123,11 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     public void onClientSavedSuccess() {
-//        Snackbar.make(mRootView, R.string.client_saved_success, Snackbar.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onRequestSuccess() {
-        Toast.makeText(this, "Client sent to server success", Toast.LENGTH_SHORT).show();
-        // TODO: 3/1/18
-
-    }
-
-    @Override
-    public void onRequestFailed(String message) {
-        Toast.makeText(this, "Client sent to server failed", Toast.LENGTH_SHORT).show();
-        // TODO: 3/1/18
     }
 
     @Override
     public void onSyncResult() {
-        Toast.makeText(this, "Sync success", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Sync success", Toast.LENGTH_SHORT).show();
         // TODO: 3/1/18
     }
 
@@ -179,5 +164,13 @@ public abstract class BaseActivity extends AppCompatActivity
 
     public long getLastTimeSync() {
         return mPrefs.getLastTimeSync();
+    }
+
+    @Override
+    public void onReceivedClientsSuccess(List<Client> list) {
+    }
+
+    @Override
+    public void onSearchFinished(List<Client> clients) {
     }
 }

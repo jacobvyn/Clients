@@ -3,7 +3,6 @@ package com.alex.devops;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -13,8 +12,6 @@ import android.view.View;
 import com.alex.devops.commons.BaseActivity;
 import com.alex.devops.db.Client;
 import com.alex.devops.views.ClientViewFragment;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,15 +46,6 @@ public class NewClientActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
-    public void onSearchFinished(List<Client> clients) {
-    }
-
-    @Override
-    public void onReceivedClientsSuccess(List<Client> list) {
-
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.new_cleint_menu, menu);
         return true;
@@ -78,14 +66,15 @@ public class NewClientActivity extends BaseActivity implements View.OnClickListe
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.client_view_root_layout);
         if (fragment instanceof ClientViewFragment) {
             ClientViewFragment clientFragment = (ClientViewFragment) fragment;
-//            if (clientFragment.checkInputData()) {
+            if (clientFragment.checkInputData()) {
                 finishWithResult(clientFragment.getClient());
-//            }
+            }
         }
     }
 
     private void finishWithResult(Client client) {
         insertClient(client);
+        setResult(RESULT_OK);
         finish();
     }
 
@@ -104,11 +93,6 @@ public class NewClientActivity extends BaseActivity implements View.OnClickListe
         if (fragment instanceof ClientViewFragment) {
             ((ClientViewFragment) fragment).onAddParentClicked();
         }
-        changeFabIcon();
-    }
-
-    private void changeFabIcon() {
-
     }
 
     @Override

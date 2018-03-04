@@ -48,4 +48,5 @@
     <string name="no_connection">No internet connection, try later.</string>
     <string name="data_base_reload">Data base reload</string>
     <string name="notice_db_reload">Are you sure, that you want to reload your data base?</string>
+    <string name="syncing_finished">Syncing is successfully finished</string>
 </resources>

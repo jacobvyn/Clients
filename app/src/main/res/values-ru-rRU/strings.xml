@@ -48,4 +48,5 @@
     <string name="no_connection">Нет интернет соединения, попробуйте позже.</string>
     <string name="data_base_reload">Перезагрузка базы</string>
     <string name="notice_db_reload">Вы уверены, что хотите полностью перезагрузить базу данных?</string>
+    <string name="syncing_finished">Синхронизация успешно завершена.</string>
 </resources>

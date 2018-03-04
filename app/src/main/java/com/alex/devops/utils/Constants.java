@@ -11,4 +11,6 @@ public class Constants {
     public static final String ARG_CURRENT_POSITION = "ARG_CURRENT_POSITION";
     //    public static final String URL = "https://www.leha-devops.com/";
     public static final String URL = "https://www.facebook.com/";
+    public static final String USER_PASS = "pass123qwerty";
+    public static String USER_NAME = "alex";
 }
