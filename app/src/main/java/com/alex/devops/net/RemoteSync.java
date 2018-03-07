@@ -38,7 +38,7 @@ public class RemoteSync {
         List<Client> list = new ArrayList<>();
         try {
             Request request = new Request.Builder()
-                    .url(Constants.URL)
+                    .url(Constants.URL_SYNC)
                     .build();
 
             Response response = okHttpClient.newCall(request).execute();
@@ -61,7 +61,7 @@ public class RemoteSync {
     public void doPostRequest(List<Client> clientList, boolean sync) {
         try {
             Request request = new Request.Builder()
-                    .url(Constants.URL)
+                    .url(Constants.URL_CREATE)
                     .post(retrieveBody(clientList))
                     .build();
 

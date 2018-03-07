@@ -25,7 +25,7 @@ public class ReloadDbDialog extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (mListener != null) {
-                    mListener.onTotalReload();
+                    mListener.onReloadConfirmed();
                 }
             }
         });
@@ -49,6 +49,6 @@ public class ReloadDbDialog extends DialogFragment {
     }
 
     public interface Listener {
-        void onTotalReload();
+        void onReloadConfirmed();
     }
 }

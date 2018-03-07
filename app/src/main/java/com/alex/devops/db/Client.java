@@ -10,9 +10,6 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.alex.devops.utils.Utils;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.json.JSONObject;
 
 @Entity(tableName = "clients")
 public class Client implements Parcelable {
@@ -20,8 +17,8 @@ public class Client implements Parcelable {
     @ColumnInfo(name = "id")
     private int mId;
 
-    @ColumnInfo(name = "time_stamp")
-    private long mTimeStamp;
+    @ColumnInfo(name = "create_date")
+    private long mCreateDate;
 
     @ColumnInfo(name = "last_visit")
     private long mLastVisit;
@@ -73,13 +70,13 @@ public class Client implements Parcelable {
     private byte[] mSecondPhotoBlob = new byte[0];
 
     public Client() {
-        mTimeStamp = System.currentTimeMillis();
-        mLastVisit = mTimeStamp;
+        mCreateDate = System.currentTimeMillis();
+        mLastVisit = mCreateDate;
     }
 
     protected Client(Parcel in) {
         mId = in.readInt();
-        mTimeStamp = in.readLong();
+        mCreateDate = in.readLong();
         mLastVisit = in.readLong();
         mVisitCounter = in.readInt();
 
@@ -102,7 +99,7 @@ public class Client implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(mId);
-        parcel.writeLong(mTimeStamp);
+        parcel.writeLong(mCreateDate);
         parcel.writeLong(mLastVisit);
         parcel.writeInt(mVisitCounter);
         parcel.writeString(mChildName);
@@ -166,12 +163,12 @@ public class Client implements Parcelable {
         this.mMainPhoneNumber = phoneNumber;
     }
 
-    public long getTimeStamp() {
-        return mTimeStamp;
+    public long getCreateDate() {
+        return mCreateDate;
     }
 
-    public void setTimeStamp(long mTimerStamp) {
-        this.mTimeStamp = mTimerStamp;
+    public void setCreateDate(long createDate) {
+        this.mCreateDate = createDate;
     }
 
     @NonNull

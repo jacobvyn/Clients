@@ -97,7 +97,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void onTotalReload() {
+    public void onReloadConfirmed() {
         getAllClientsFromServer();
     }
 

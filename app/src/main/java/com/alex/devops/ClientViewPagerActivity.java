@@ -145,6 +145,7 @@ public class ClientViewPagerActivity extends BaseActivity implements OnPageChang
         int clientVisit = mCurrentClient.getVisitCounter();
         if (clientVisit >= mMaxVisits) {
             enableVisitButton(false);
+            // TODO: 3/4/18  show on UI
         }
     }
 

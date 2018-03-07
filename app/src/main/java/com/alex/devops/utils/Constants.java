@@ -9,6 +9,6 @@ public class Constants {
     public static final String ARG_VIEW_PAGER_CLIENTS = "ARG_VIEW_PAGER_CLIENTS";
     public static final String ARG_VIEW_PAGER_CLIENTS_IDS = "ARG_VIEW_PAGER_CLIENTS_IDS";
     public static final String ARG_CURRENT_POSITION = "ARG_CURRENT_POSITION";
-    //    public static final String URL = "https://www.leha-devops.com/";
-    public static final String URL = "https://www.facebook.com/";
+    public static final String URL_CREATE = "https://www.facebook.com/chugger/create";
+    public static final String URL_SYNC = "https://www.facebook.com/chugger/sync";
 }

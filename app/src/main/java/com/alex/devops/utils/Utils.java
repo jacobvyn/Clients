@@ -217,7 +217,6 @@ public class Utils {
         int monthLast = lastVisit.get(Calendar.MONTH);
         int dayLast = lastVisit.get(Calendar.DAY_OF_MONTH);
 
-
         Calendar now = Calendar.getInstance();
         now.setTime(new Date(System.currentTimeMillis()));
         int yearNow = now.get(Calendar.YEAR);

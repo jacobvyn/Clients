@@ -20,7 +20,7 @@ public interface ClientDao {
     @Query("SELECT * FROM clients ORDER BY id ASC")
     List<Client> getAllClients();
 
-    @Query("SELECT * FROM clients WHERE time_stamp > :dateNow")
+    @Query("SELECT * FROM clients WHERE create_date > :dateNow")
     List<Client> getAllClientsAfter(long dateNow);
 
     @Query("SELECT * FROM clients WHERE" +
