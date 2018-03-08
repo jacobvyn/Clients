@@ -33,6 +33,7 @@ dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     api 'com.github.QuadFlask:colorpicker:0.0.13'
     api 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.google.firebase:firebase-database:11.0.4'
     compile 'com.squareup.okhttp3:okhttp:3.10.0'
 
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.7.2'
@@ -47,3 +48,6 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }
+
+
+apply plugin: 'com.google.gms.google-services'

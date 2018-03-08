@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.alex.devops.commons.BaseActivity;
 import com.alex.devops.db.Client;
@@ -20,6 +21,11 @@ import com.alex.devops.views.VisitSettingsFragment;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -49,6 +55,29 @@ public class MainActivity extends BaseActivity implements
         setBackgroundColor(getBackgroundColor());
         insertSearchFragment();
         findClient("all");
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference alex = database.getReference("clients");
+
+
+        ClientNew client = new ClientNew();
+        client.setName("olesyaqq");
+        client.setSecondName("pushkinaqq");
+        alex.child("7ww89").setValue(client);
+
+        alex.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final Object value = dataSnapshot.getValue();
+                Toast.makeText(MainActivity.this, value.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override

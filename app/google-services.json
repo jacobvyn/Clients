@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "708804266693",
+    "firebase_url": "https://happychildood.firebaseio.com",
+    "project_id": "happychildood",
+    "storage_bucket": "happychildood.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:708804266693:android:ca947500b63b4b48",
+        "android_client_info": {
+          "package_name": "com.alex.devops"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "708804266693-mliq3sddd5b5h6p7df36prd5000g82mq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alex.devops",
+            "certificate_hash": "8806cd35da3f0acef4819fe618b12a614f175c14"
+          }
+        },
+        {
+          "client_id": "708804266693-p1anbnlovlj0jjmpdvnf5pav8kfnontp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgKHhukW5EfEclhALUdFknql-aeEsSrsw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "708804266693-p1anbnlovlj0jjmpdvnf5pav8kfnontp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
