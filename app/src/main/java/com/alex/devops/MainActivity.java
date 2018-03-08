@@ -14,7 +14,7 @@ import android.view.View;
 
 import com.alex.devops.commons.BaseActivity;
 import com.alex.devops.db.Client;
-import com.alex.devops.views.ReloadDbDialog;
+import com.alex.devops.views.SyncDialog;
 import com.alex.devops.views.SearchFragment;
 import com.alex.devops.views.VisitSettingsFragment;
 import com.flask.colorpicker.ColorPickerView;
@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends BaseActivity implements
         SearchView.OnQueryTextListener,
         View.OnClickListener,
-        ColorPickerClickListener, VisitSettingsFragment.Listener, ReloadDbDialog.Listener {
+        ColorPickerClickListener, VisitSettingsFragment.Listener, SyncDialog.Listener {
 
     @BindView(R.id.root_view)
     protected View mRootView;
@@ -69,19 +69,15 @@ public class MainActivity extends BaseActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sync: {
-                sendNewlyCreatedClientsToServer();
+                startSync();
                 return true;
             }
             case R.id.action_color_pick: {
                 chooseColor();
                 return true;
             }
-            case R.id.action_settings: {
+            case R.id.action_set_visits: {
                 setMaxVisits();
-                return true;
-            }
-            case R.id.action_reload_db: {
-                reloadDB();
                 return true;
             }
             default: {
@@ -90,15 +86,15 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    private void reloadDB() {
-        ReloadDbDialog dialog = ReloadDbDialog.newInstance();
+    private void startSync() {
+        SyncDialog dialog = SyncDialog.newInstance();
         dialog.setListener(this);
-        dialog.show(getFragmentManager(), ReloadDbDialog.TAG);
+        dialog.show(getFragmentManager(), SyncDialog.TAG);
     }
 
     @Override
-    public void onReloadConfirmed() {
-        getAllClientsFromServer();
+    public void onSyncConfirmed() {
+        startSyncConfirmed();
     }
 
     private void setMaxVisits() {
@@ -187,14 +183,9 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void onReceivedClientsSuccess(List<Client> list) {
-        replaceClients(list);
-    }
-
-    @Override
-    public void onSyncResult() {
-        super.onSyncResult();
-        Snackbar.make(mRootView, R.string.syncing_finished, Snackbar.LENGTH_LONG).show();
+    public void onSyncResult(int resource) {
+        super.onSyncResult(resource);
+        Snackbar.make(mRootView, resource, Snackbar.LENGTH_LONG).show();
     }
 
     @Override

@@ -32,8 +32,13 @@ import butterknife.OnClick;
 public class ClientViewPagerActivity extends BaseActivity implements OnPageChangeListener {
     private ViewPager mViewPager;
     private List<Client> mClientList;
+
     @BindView(R.id.pager_last_visited_text_view)
     protected TextView mLastVisitedTextView;
+
+    @BindView(R.id.pager_client_visits_text_view)
+    protected TextView mClientVisitsTextView;
+
     @BindView(R.id.pager_visit_button)
     protected Button mVisitButton;
     private Client mCurrentClient;
@@ -97,6 +102,9 @@ public class ClientViewPagerActivity extends BaseActivity implements OnPageChang
 
     @Override
     public void onSearchFinished(List<Client> clients) {
+        if (clients.size() == 0) {
+            finish();
+        }
         mClientList = clients;
         mViewPager.setAdapter(new ClientsViewPagerAdapter(getSupportFragmentManager(), mClientList));
 //        int current = retrieveCurrentPosition(getIntent());
@@ -116,6 +124,8 @@ public class ClientViewPagerActivity extends BaseActivity implements OnPageChang
 
     private void updateVisitControls(boolean show) {
         mLastVisitedTextView.setText(Utils.getFormattedDate(mCurrentClient.getLastVisit()));
+        String visits = mCurrentClient.getVisitCounter() + "/" + mMaxVisits;
+        mClientVisitsTextView.setText(visits);
         if (mCurrentClient.hasVisitedToday()) {
             enableVisitButton(false);
             showAlreadyVisitedMessage(show);

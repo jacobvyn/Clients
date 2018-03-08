@@ -1,12 +1,12 @@
 package com.alex.devops.net;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 
 import com.alex.devops.db.Client;
 import com.alex.devops.utils.Constants;
 import com.alex.devops.utils.Utils;
+
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -22,13 +22,9 @@ import okhttp3.Response;
 public class RemoteSync {
     private static final String REQUEST_BODY_MEDIA_TYPE = "application/json; charset=utf-8";
     private MediaType JSON = MediaType.parse(REQUEST_BODY_MEDIA_TYPE);
-    private Callback mCallback;
-    private Handler mHandler;
     private OkHttpClient okHttpClient;
 
-    public RemoteSync(Callback callback) {
-        mCallback = callback;
-        mHandler = new Handler((Looper.getMainLooper()));
+    public RemoteSync() {
         okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor())
                 .build();
@@ -42,23 +38,17 @@ public class RemoteSync {
                     .build();
 
             Response response = okHttpClient.newCall(request).execute();
-
-            if (response.code() == HttpURLConnection.HTTP_OK) {
-                if (response.body() != null) {
-                    String respAsString = response.body().string();
-                    return Utils.parseResponse(respAsString);
-                }
-            } else {
-                Log.e("+++", "fail");
-            }
+            return handleResponse(response);
 
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return list;
     }
 
-    public void doPostRequest(List<Client> clientList, boolean sync) {
+    public boolean doPostRequest(List<Client> clientList) {
         try {
             Request request = new Request.Builder()
                     .url(Constants.URL_CREATE)
@@ -66,10 +56,12 @@ public class RemoteSync {
                     .build();
 
             Response response = okHttpClient.newCall(request).execute();
-            handleResponse(response, sync);
+            return response.code() == HttpURLConnection.HTTP_OK;
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     private RequestBody retrieveBody(List<Client> clientList) {
@@ -77,45 +69,16 @@ public class RemoteSync {
         return RequestBody.create(JSON, json);
     }
 
-    private void handleResponse(Response response, boolean sync) {
+    private List<Client> handleResponse(Response response) throws IOException, JSONException {
         if (response.code() == HttpURLConnection.HTTP_OK) {
-            onRequestSuccess(sync);
+            if (response.body() != null) {
+                String respAsString = response.body().string();
+                return Utils.parseResponse(respAsString);
+            }
         } else {
-            onRequestFailed(response.message());
+            Log.e("RemoteSync.Debug", "bad response code: " + response.code() + " message: " + response.message());
         }
-    }
 
-    private void onRequestSuccess(final boolean sync) {
-        runOnUi(new Runnable() {
-            @Override
-            public void run() {
-                if (mCallback != null) {
-                    mCallback.onRequestSuccess(sync);
-                }
-            }
-        });
-    }
-
-    private void onRequestFailed(final String message) {
-        runOnUi(new Runnable() {
-            @Override
-            public void run() {
-                if (mCallback != null) {
-                    mCallback.onRequestFailed(message);
-                }
-            }
-        });
-    }
-
-    private void runOnUi(Runnable runnable) {
-        if (mHandler != null) {
-            mHandler.post(runnable);
-        }
-    }
-
-    public interface Callback {
-        void onRequestSuccess(boolean sync);
-
-        void onRequestFailed(String message);
+        return new ArrayList<Client>();
     }
 }

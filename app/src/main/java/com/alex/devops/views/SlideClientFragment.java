@@ -89,7 +89,7 @@ public class SlideClientFragment extends Fragment {
 
     private void setSecondParentData() {
         Bitmap bitMap = Utils.getBitMap(mClient.getSecondPhotoBlob());
-        mSecondParentPhoto.setImageBitmap(bitMap);
+        setBitmap(bitMap, mSecondParentPhoto);
         mSecondParentName.setText(mClient.getSecondParentFirstName());
         mSecondParentSurname.setText(mClient.getSecondParentSecondName());
         mSecondParentPhoneNumber.setText(mClient.getSecondPhoneNumber());
@@ -113,7 +113,7 @@ public class SlideClientFragment extends Fragment {
 
     private void setMainParentData() {
         Bitmap bitMap = Utils.getBitMap(mClient.getMainBlobPhoto());
-        mPrimaryParentPhoto.setImageBitmap(bitMap);
+        setBitmap(bitMap, mPrimaryParentPhoto);
 
         mMainParentName.setText(mClient.getMainParentFirstName());
         mMainParentSurname.setText(mClient.getMainSecondName());
@@ -124,6 +124,14 @@ public class SlideClientFragment extends Fragment {
         } else {
             mMainParentPatronymicName.setText(patronymicName);
             mMainParentPatronymicName.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setBitmap(Bitmap bitMap, ImageView imageView) {
+        if (bitMap == null) {
+            imageView.setImageDrawable(getContext().getDrawable(R.drawable.brocken_photo));
+        } else {
+            imageView.setImageBitmap(bitMap);
         }
     }
 

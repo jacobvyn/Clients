@@ -12,22 +12,27 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.alex.devops.R;
 import com.alex.devops.db.Client;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.type.CollectionType;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,6 +40,7 @@ import java.util.List;
 
 public class Utils {
     public static final String LOG_TAG = Utils.class.getSimpleName();
+
     private static final String IMG_FILE_PREFIX = "IMG_";
     private static final String IMG_FILE_SUFFIX = ".jpg";
     private static final int FULL_QUALITY = 100;
@@ -148,7 +154,11 @@ public class Utils {
     }
 
     public static Bitmap getBitMap(byte[] blobPhoto) {
-        return BitmapFactory.decodeByteArray(blobPhoto, 0, blobPhoto.length);
+        if (blobPhoto != null) {
+            return BitmapFactory.decodeByteArray(blobPhoto, 0, blobPhoto.length);
+        } else {
+            return null;
+        }
     }
 
     public static void writeToFileAsync(final String file, final byte[] bytes) {
@@ -297,9 +307,15 @@ public class Utils {
         return 1;
     }
 
-    public static List<Client> parseResponse(String string) throws IOException {
+    private static JSONArray getJsonClientsArray(String jsonResponseString) throws JSONException {
+        JSONObject jsonResponse = new JSONObject(jsonResponseString);
+        return (JSONArray) jsonResponse.get("Response");
+    }
+
+    public static List<Client> parseResponse(String jsonResponseString) throws IOException, JSONException {
+        JSONArray jsonClientsArray = getJsonClientsArray(jsonResponseString);
         ObjectMapper mapper = new ObjectMapper();
-        CollectionType type = mapper.getTypeFactory().constructCollectionType(List.class, Client.class);
-        return mapper.readValue(string, type);
+        CollectionType collectionType = mapper.getTypeFactory().constructCollectionType(List.class, Client.class);
+        return mapper.readValue(jsonClientsArray.toString(), collectionType);
     }
 }

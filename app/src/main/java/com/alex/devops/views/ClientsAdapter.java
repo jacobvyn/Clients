@@ -58,7 +58,11 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ClientVi
         holder.phone.setText(client.getMainPhoneNumber());
 
         Bitmap bitMap = Utils.getBitMap(client.getMainBlobPhoto());
-        holder.photo.setImageBitmap(bitMap);
+        if (bitMap == null) {
+            holder.photo.setImageDrawable(mContext.getDrawable(R.drawable.brocken_photo));
+        }else {
+            holder.photo.setImageBitmap(bitMap);
+        }
     }
 
     private void setOnclickListener(View view, final int currPosition) {

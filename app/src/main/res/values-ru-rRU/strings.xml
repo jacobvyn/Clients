@@ -35,11 +35,11 @@
     <string name="choose_color">Выберите цвет</string>
     <string name="abort">Отмена</string>
     <string name="found_clients">Клиенты</string>
-    <string name="last_visited">Последнее посещение:</string>
+    <string name="last_visited">Последнее:</string>
     <string name="text_example">2014-02-01</string>
     <string name="visit_button">Visit</string>
     <string name="client_already_visited">Клиент уже был сегодня!</string>
-    <string name="settings">Настройки</string>
+    <string name="set_max_visits">Max визитов </string>
     <string name="max_visits">Установите max кол-во визитов</string>
     <string name="max_visits_hint">кол-во визитов</string>
     <string name="visit_amount_error">Кол-во визитов должно быть больше 0.</string>
@@ -48,5 +48,7 @@
     <string name="no_connection">Нет интернет соединения, попробуйте позже.</string>
     <string name="data_base_reload">Перезагрузка базы</string>
     <string name="notice_db_reload">Вы уверены, что хотите полностью перезагрузить базу данных?</string>
-    <string name="syncing_finished">Синхронизация успешно завершена.</string>
+    <string name="syncing_finished_success">Синхронизация успешно завершена.</string>
+    <string name="syncing_failed">Ошибка при синхронизации.</string>
+    <string name="visits">Посещений:</string>
 </resources>

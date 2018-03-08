@@ -5,6 +5,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.alex.devops.R;
 import com.alex.devops.commons.BaseActivity;
 import com.alex.devops.net.RemoteSync;
 import com.alex.devops.utils.ExecutorHelper;
@@ -14,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class DataBaseWrapper implements RemoteSync.Callback {
+public class DataBaseWrapper {
     private static DataBaseWrapper sInstance;
 
     private volatile OnDataBaseChangedListener mListener;
@@ -25,7 +26,7 @@ public class DataBaseWrapper implements RemoteSync.Callback {
 
     private DataBaseWrapper(BaseActivity activity) {
         mDataBase = ClientsDataBase.getDataBase(activity);
-        mRemoteSync = new RemoteSync(this);
+        mRemoteSync = new RemoteSync();
         mHandler = new Handler((Looper.getMainLooper()));
     }
 
@@ -95,50 +96,42 @@ public class DataBaseWrapper implements RemoteSync.Callback {
         ExecutorHelper.submit(task);
     }
 
-    public void sendToServer(final long lastTimeSync) {
+    public void syncing(final long lastTimeSync) {
         Runnable task = new Runnable() {
             @Override
             public void run() {
                 List<Client> nonSyncedClients = mDataBase.clientDao().getAllClientsAfter(lastTimeSync);
                 if (nonSyncedClients.size() > 0) {
-                    mRemoteSync.doPostRequest(nonSyncedClients, true);
+                    boolean result = mRemoteSync.doPostRequest(nonSyncedClients);
+                    proceedSyncing(result);
+                } else {
+                    proceedSyncing(true);
                 }
             }
         };
         ExecutorHelper.submit(task);
     }
 
-    public void getAllFromServer() {
-        Runnable task = new Runnable() {
-            @Override
-            public void run() {
-                List<Client> clientList = mRemoteSync.getAllClients();
-                onReceivedClientsSuccess(clientList);
-            }
-        };
-        ExecutorHelper.submit(task);
-    }
-
-    public void insertClientRemote(final Client client) {
-        ExecutorHelper.submit(new Runnable() {
-            @Override
-            public void run() {
-                mRemoteSync.doPostRequest(Arrays.asList(client), false);
-            }
-        });
-
-    }
-
-    public void replaceClients(final List<Client> clients) {
-        ExecutorHelper.submit(new Runnable() {
-            @Override
-            public void run() {
+    private void proceedSyncing(boolean proceedSync) {
+        if (proceedSync) {
+            List<Client> clientList = mRemoteSync.getAllClients();
+            if (clientList.size() > 0) {
                 mDataBase.clientDao().deleteAll();
-                mDataBase.clientDao().insertAll(clients);
-                onSearchFinished(clients);
-                onSyncResult();
+                mDataBase.clientDao().insertAll(clientList);
+                onSearchFinished(clientList);
             }
-        });
+            onResult(true);
+        } else {
+            onResult(false);
+        }
+    }
+
+    private void onResult(boolean result) {
+        if (result) {
+            onSyncResult(R.string.syncing_finished_success);
+        } else {
+            onSyncResult(R.string.syncing_failed);
+        }
     }
 
     private void onSearchFinished(final List<Client> clientsList) {
@@ -163,23 +156,12 @@ public class DataBaseWrapper implements RemoteSync.Callback {
         });
     }
 
-    private void onSyncResult() {
+    private void onSyncResult(final int resourceMessage) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (mListener != null) {
-                    mListener.onSyncResult();
-                }
-            }
-        });
-    }
-
-    private void onReceivedClientsSuccess(final List<Client> list) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (mListener != null) {
-                    mListener.onReceivedClientsSuccess(list);
+                    mListener.onSyncResult(resourceMessage);
                 }
             }
         });
@@ -195,26 +177,11 @@ public class DataBaseWrapper implements RemoteSync.Callback {
         mListener = listener;
     }
 
-    @Override
-    public void onRequestSuccess(boolean sync) {
-        if (sync) {
-            onSyncResult();
-        }
-    }
-
-    @Override
-    public void onRequestFailed(String message) {
-//        Toast.makeText(this, "Client sent to server failed", Toast.LENGTH_SHORT).show();
-        // TODO: 3/1/18
-    }
-
     public interface OnDataBaseChangedListener {
         void onClientSavedSuccess();
 
         void onSearchFinished(List<Client> clientsList);
 
-        void onSyncResult();
-
-        void onReceivedClientsSuccess(List<Client> list);
+        void onSyncResult(int resourceMessage);
     }
 }

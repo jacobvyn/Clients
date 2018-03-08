@@ -10,7 +10,6 @@ import android.widget.Toast;
 import com.alex.devops.R;
 import com.alex.devops.db.Client;
 import com.alex.devops.db.DataBaseWrapper;
-import com.alex.devops.net.RemoteSync;
 import com.alex.devops.utils.PermissionHelper;
 import com.alex.devops.utils.Utils;
 
@@ -54,20 +53,8 @@ public abstract class BaseActivity extends AppCompatActivity
     public void insertClient(Client client) {
         if (mDataBase != null) {
             mDataBase.insertClient(client);
-            sendToServer(client);
         }
     }
-
-    private void sendToServer(Client client) {
-        if (Utils.isOnline(this)) {
-            if (mDataBase != null) {
-                mDataBase.insertClientRemote(client);
-            }
-        } else {
-            Snackbar.make(findViewById(R.id.root_view), R.string.no_connection, Snackbar.LENGTH_SHORT).show();
-        }
-    }
-
     public void findClient(String secondName) {
         if (mDataBase != null) {
             mDataBase.findClient(secondName);
@@ -86,38 +73,20 @@ public abstract class BaseActivity extends AppCompatActivity
         }
     }
 
-    public void replaceClients(List<Client> clients) {
-        if (mDataBase != null) {
-            mDataBase.replaceClients(clients);
-        }
-    }
-
-    public void getAllClientsFromServer() {
+    protected void startSyncConfirmed() {
         if (Utils.isOnline(this)) {
             if (mDataBase != null) {
-                mDataBase.getAllFromServer();
-                Snackbar.make(findViewById(R.id.root_view), R.string.syncing, Snackbar.LENGTH_LONG).show();
-            }
-        } else {
-            Snackbar.make(findViewById(R.id.root_view), R.string.no_connection, Snackbar.LENGTH_SHORT).show();
-        }
-    }
-
-
-    public void findClientByIds(ArrayList<Integer> clientsIds) {
-        if (mDataBase != null) {
-            mDataBase.findClientByIds(clientsIds);
-        }
-    }
-
-    protected void sendNewlyCreatedClientsToServer() {
-        if (Utils.isOnline(this)) {
-            if (mDataBase != null) {
-                mDataBase.sendToServer(getLastTimeSync());
+                mDataBase.syncing(getLastTimeSync());
             }
             Snackbar.make(findViewById(R.id.root_view), R.string.syncing, Snackbar.LENGTH_SHORT).show();
         } else {
             Snackbar.make(findViewById(R.id.root_view), R.string.no_connection, Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    public void findClientByIds(ArrayList<Integer> clientsIds) {
+        if (mDataBase != null) {
+            mDataBase.findClientByIds(clientsIds);
         }
     }
 
@@ -126,7 +95,7 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
     @Override
-    public void onSyncResult() {
+    public void onSyncResult(int resource) {
         setLastTimeSyncNow();
     }
 
@@ -163,10 +132,6 @@ public abstract class BaseActivity extends AppCompatActivity
 
     public long getLastTimeSync() {
         return mPrefs.getLastTimeSync();
-    }
-
-    @Override
-    public void onReceivedClientsSuccess(List<Client> list) {
     }
 
     @Override

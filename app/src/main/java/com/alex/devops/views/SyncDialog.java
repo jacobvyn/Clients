@@ -8,12 +8,12 @@ import android.support.v7.app.AlertDialog;
 
 import com.alex.devops.R;
 
-public class ReloadDbDialog extends DialogFragment {
-    public static String TAG = ReloadDbDialog.class.getSimpleName();
+public class SyncDialog extends DialogFragment {
+    public static String TAG = SyncDialog.class.getSimpleName();
     private Listener mListener;
 
-    public static ReloadDbDialog newInstance() {
-        return new ReloadDbDialog();
+    public static SyncDialog newInstance() {
+        return new SyncDialog();
     }
 
     @Override
@@ -25,7 +25,7 @@ public class ReloadDbDialog extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (mListener != null) {
-                    mListener.onReloadConfirmed();
+                    mListener.onSyncConfirmed();
                 }
             }
         });
@@ -49,6 +49,6 @@ public class ReloadDbDialog extends DialogFragment {
     }
 
     public interface Listener {
-        void onReloadConfirmed();
+        void onSyncConfirmed();
     }
 }

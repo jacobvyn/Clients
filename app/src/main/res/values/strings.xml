@@ -39,7 +39,7 @@
     <string name="text_example">2014-02-01</string>
     <string name="visit_button">Visit</string>
     <string name="client_already_visited">Client has already visited today!</string>
-    <string name="settings">Settings</string>
+    <string name="set_max_visits">Set visits</string>
     <string name="max_visits">Set Max visits</string>
     <string name="max_visits_hint">Max visits</string>
     <string name="visit_amount_error">Visits amount should be more than 0</string>
@@ -48,5 +48,7 @@
     <string name="no_connection">No internet connection, try later.</string>
     <string name="data_base_reload">Data base reload</string>
     <string name="notice_db_reload">Are you sure, that you want to reload your data base?</string>
-    <string name="syncing_finished">Syncing is successfully finished</string>
+    <string name="syncing_finished_success">Syncing is successfully finished</string>
+    <string name="syncing_failed">Syncing is failed</string>
+    <string name="visits">Visits:</string>
 </resources>
