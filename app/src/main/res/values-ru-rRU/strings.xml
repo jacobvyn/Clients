@@ -53,4 +53,5 @@
     <string name="visits">Посещений:</string>
     <string name="sync_url">Cинхр. URL</string>
     <string name="https_protocol">http://www.</string>
+    <string name="visit_dialog_message">Измените максимальное кол-во визитов.</string>
 </resources>

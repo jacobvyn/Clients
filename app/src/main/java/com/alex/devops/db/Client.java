@@ -86,7 +86,7 @@ public class Client implements Parcelable {
 
     @JsonProperty("visitCounter")
     @ColumnInfo(name = "visit_counter")
-    private int mVisitCounter;
+    private int mVisitCounter = 1;
 
     public Client() {
         mCreateDate = System.currentTimeMillis();

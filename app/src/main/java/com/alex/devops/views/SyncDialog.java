@@ -21,16 +21,14 @@ public class SyncDialog extends DialogFragment implements DialogInterface.OnShow
     private String mOldBaseUrl;
 
     public static SyncDialog newInstance() {
-        final SyncDialog syncDialog = new SyncDialog();
-        syncDialog.setCancelable(false);
-        return syncDialog;
+        return new SyncDialog();
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.sync_dialog_layout, null);
         mURLEditText = (EditText) view.findViewById(R.id.sync_dialog_url_edit_text);
-        mOldBaseUrl = getBaseUrl();
+        mOldBaseUrl = getBaseURL();
         mURLEditText.setText(mOldBaseUrl);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -50,12 +48,8 @@ public class SyncDialog extends DialogFragment implements DialogInterface.OnShow
         return dialog;
     }
 
-    private String getBaseUrl() {
-        if (getActivity() instanceof BaseActivity) {
-            return ((BaseActivity) getActivity()).getBaseURL();
-        } else {
-            return "";
-        }
+    private String getBaseURL() {
+        return getActivity() instanceof BaseActivity ? ((BaseActivity) getActivity()).getBaseURL() : "";
     }
 
     @Override
@@ -75,16 +69,16 @@ public class SyncDialog extends DialogFragment implements DialogInterface.OnShow
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onOkClicked(dialog);
+                onOkClicked();
             }
         });
     }
 
-    private void onOkClicked(AlertDialog dialog) {
+    private void onOkClicked() {
         if (isURLValid()) {
             checkBaseUrl();
             onSyncConfirmed();
-            dialog.dismiss();
+            dismiss();
         } else {
             Toast.makeText(getActivity(), "Url is not valid", Toast.LENGTH_SHORT).show();
         }

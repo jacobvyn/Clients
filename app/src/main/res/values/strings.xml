@@ -53,4 +53,5 @@
     <string name="visits">Visits:</string>
     <string name="sync_url">Sync URL</string>
     <string name="https_protocol" translatable="false">https://www.</string>
+    <string name="visit_dialog_message">Change max visits amount.</string>
 </resources>
