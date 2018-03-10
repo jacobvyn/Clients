@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.Button;
@@ -29,7 +30,9 @@ public class SyncDialog extends DialogFragment implements DialogInterface.OnShow
         View view = getActivity().getLayoutInflater().inflate(R.layout.sync_dialog_layout, null);
         mURLEditText = (EditText) view.findViewById(R.id.sync_dialog_url_edit_text);
         mOldBaseUrl = getBaseURL();
-        mURLEditText.setText(mOldBaseUrl);
+        if (!TextUtils.isEmpty(mOldBaseUrl)) {
+            mURLEditText.setText(mOldBaseUrl);
+        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.data_base_reload);

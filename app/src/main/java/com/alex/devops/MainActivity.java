@@ -11,13 +11,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.alex.devops.commons.BaseActivity;
 import com.alex.devops.db.Client;
 import com.alex.devops.views.SyncDialog;
 import com.alex.devops.views.SearchFragment;
-import com.alex.devops.views.VisitSettingsDialog;
+import com.alex.devops.views.VisitDialog;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
@@ -30,7 +29,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends BaseActivity implements
         SearchView.OnQueryTextListener,
         View.OnClickListener,
-        ColorPickerClickListener, VisitSettingsDialog.Listener, SyncDialog.Listener {
+        ColorPickerClickListener, VisitDialog.Listener, SyncDialog.Listener {
 
     @BindView(R.id.root_view)
     protected View mRootView;
@@ -104,9 +103,9 @@ public class MainActivity extends BaseActivity implements
     }
 
     private void setMaxVisits() {
-        VisitSettingsDialog fragment = VisitSettingsDialog.newInstance();
+        VisitDialog fragment = VisitDialog.newInstance();
         fragment.setListener(this);
-        fragment.show(getFragmentManager(), VisitSettingsDialog.TAG);
+        fragment.show(getFragmentManager(), VisitDialog.TAG);
     }
 
     private void chooseColor() {

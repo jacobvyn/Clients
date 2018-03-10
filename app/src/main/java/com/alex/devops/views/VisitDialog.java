@@ -14,15 +14,15 @@ import com.alex.devops.R;
 import com.alex.devops.commons.BaseActivity;
 import com.alex.devops.utils.Utils;
 
-public class VisitSettingsDialog extends DialogFragment implements DialogInterface.OnShowListener {
-    public static String TAG = VisitSettingsDialog.class.getName();
+public class VisitDialog extends DialogFragment implements DialogInterface.OnShowListener {
+    public static String TAG = VisitDialog.class.getName();
 
     private EditText mVisitCounterEditText;
-    private VisitSettingsDialog.Listener mListener;
+    private VisitDialog.Listener mListener;
 
 
-    public static VisitSettingsDialog newInstance() {
-        return new VisitSettingsDialog();
+    public static VisitDialog newInstance() {
+        return new VisitDialog();
     }
 
     @Override
@@ -48,7 +48,7 @@ public class VisitSettingsDialog extends DialogFragment implements DialogInterfa
         return dialog;
     }
 
-    public void setListener(VisitSettingsDialog.Listener listener) {
+    public void setListener(VisitDialog.Listener listener) {
         mListener = listener;
     }
 
