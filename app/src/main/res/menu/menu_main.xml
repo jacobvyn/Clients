@@ -18,16 +18,16 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_sync"
-        android:icon="@drawable/ic_action_refresh"
-        android:orderInCategory="200"
-        android:title="@string/sync"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/action_set_visits"
         android:icon="@drawable/ic_action_refresh"
         android:orderInCategory="200"
         android:title="@string/set_max_visits"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_sync"
+        android:icon="@drawable/ic_action_refresh"
+        android:orderInCategory="200"
+        android:title="@string/sync"
         app:showAsAction="never" />
 </menu>

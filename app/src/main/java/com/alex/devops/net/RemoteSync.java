@@ -1,5 +1,6 @@
 package com.alex.devops.net;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.alex.devops.db.Client;
@@ -19,7 +20,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+
 public class RemoteSync {
+    public static final String LOG_TAG = RemoteSync.class.getSimpleName();
     private static final String REQUEST_BODY_MEDIA_TYPE = "application/json; charset=utf-8";
     private MediaType JSON = MediaType.parse(REQUEST_BODY_MEDIA_TYPE);
     private OkHttpClient okHttpClient;
@@ -30,11 +33,15 @@ public class RemoteSync {
                 .build();
     }
 
-    public List<Client> getAllClients() {
+    public List<Client> getAllClients(String syncURL) {
         List<Client> list = new ArrayList<>();
+        if (TextUtils.isEmpty(syncURL)) {
+            Log.e(LOG_TAG, " syncURL  is empty or null");
+            return list;
+        }
         try {
             Request request = new Request.Builder()
-                    .url(Constants.URL_SYNC)
+                    .url(syncURL)
                     .build();
 
             Response response = okHttpClient.newCall(request).execute();
@@ -48,10 +55,14 @@ public class RemoteSync {
         return list;
     }
 
-    public boolean doPostRequest(List<Client> clientList) {
+    public boolean doPostRequest(List<Client> clientList, String createURL) {
+        if (TextUtils.isEmpty(createURL)) {
+            Log.e(LOG_TAG, " createURL is empty or null");
+            return false;
+        }
         try {
             Request request = new Request.Builder()
-                    .url(Constants.URL_CREATE)
+                    .url(createURL)
                     .post(retrieveBody(clientList))
                     .build();
 

@@ -55,6 +55,7 @@ public abstract class BaseActivity extends AppCompatActivity
             mDataBase.insertClient(client);
         }
     }
+
     public void findClient(String secondName) {
         if (mDataBase != null) {
             mDataBase.findClient(secondName);
@@ -76,11 +77,29 @@ public abstract class BaseActivity extends AppCompatActivity
     protected void startSyncConfirmed() {
         if (Utils.isOnline(this)) {
             if (mDataBase != null) {
-                mDataBase.syncing(getLastTimeSync());
+                mDataBase.syncing(getLastTimeSync(), getSyncURL(), getCreateURL());
             }
             Snackbar.make(findViewById(R.id.root_view), R.string.syncing, Snackbar.LENGTH_SHORT).show();
         } else {
             Snackbar.make(findViewById(R.id.root_view), R.string.no_connection, Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    private String getCreateURL() {
+        return mPrefs.getCreateURL();
+    }
+
+    public String getBaseURL() {
+        return mPrefs.getBaseURL();
+    }
+
+    private String getSyncURL() {
+        return mPrefs.getSyncURL();
+    }
+
+    public void setBaseURL(String createURL) {
+        if (mPrefs != null) {
+            mPrefs.setBaseURL(createURL);
         }
     }
 

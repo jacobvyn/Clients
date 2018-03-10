@@ -97,6 +97,11 @@ public class MainActivity extends BaseActivity implements
         startSyncConfirmed();
     }
 
+    @Override
+    public void onBaseURLChanged(String newURL) {
+        setBaseURL(newURL);
+    }
+
     private void setMaxVisits() {
         VisitSettingsFragment fragment = VisitSettingsFragment.newInstance();
         fragment.setListener(this);

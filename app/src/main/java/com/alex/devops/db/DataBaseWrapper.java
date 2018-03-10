@@ -11,7 +11,6 @@ import com.alex.devops.net.RemoteSync;
 import com.alex.devops.utils.ExecutorHelper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -96,25 +95,25 @@ public class DataBaseWrapper {
         ExecutorHelper.submit(task);
     }
 
-    public void syncing(final long lastTimeSync) {
+    public void syncing(final long lastTimeSync, final String syncURL, final String createURL) {
         Runnable task = new Runnable() {
             @Override
             public void run() {
                 List<Client> nonSyncedClients = mDataBase.clientDao().getAllClientsAfter(lastTimeSync);
                 if (nonSyncedClients.size() > 0) {
-                    boolean result = mRemoteSync.doPostRequest(nonSyncedClients);
-                    proceedSyncing(result);
+                    boolean result = mRemoteSync.doPostRequest(nonSyncedClients, createURL);
+                    proceedSyncing(result, syncURL);
                 } else {
-                    proceedSyncing(true);
+                    proceedSyncing(true, syncURL);
                 }
             }
         };
         ExecutorHelper.submit(task);
     }
 
-    private void proceedSyncing(boolean proceedSync) {
+    private void proceedSyncing(boolean proceedSync, String syncURL) {
         if (proceedSync) {
-            List<Client> clientList = mRemoteSync.getAllClients();
+            List<Client> clientList = mRemoteSync.getAllClients(syncURL);
             if (clientList.size() > 0) {
                 mDataBase.clientDao().deleteAll();
                 mDataBase.clientDao().insertAll(clientList);

@@ -51,4 +51,6 @@
     <string name="syncing_finished_success">Syncing is successfully finished</string>
     <string name="syncing_failed">Syncing is failed</string>
     <string name="visits">Visits:</string>
+    <string name="sync_url">Sync URL</string>
+    <string name="https_protocol" translatable="false">https://www.</string>
 </resources>
