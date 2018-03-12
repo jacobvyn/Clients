@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.alex.devops.R;
+import com.alex.devops.db.Credentials;
 
 public class PreferenceService {
     private final SharedPreferences mPrefs;
@@ -13,9 +14,11 @@ public class PreferenceService {
     private static final String MAX_VISIT_AMOUNT = "MAX_VISIT_AMOUNT";
     private static final String SYNC_URL_KEY = "SYNC_URL_KEY";
     private static final String CREATE_URL_KEY = "CREATE_URL_KEY";
-    private static final String BASE_URL_KEY = "BASE_URL_KEY";
+    private static final String DOMAIN_KEY = "DOMAIN_KEY";
     private String CREATE_PATH = "/chugger/create";
     private String SYNC_PATH = "/chugger/sync";
+    private String LOGIN_KEY = "LOGIN_KEY";
+    private String PASSWORD_KEY = "PASSWORD_KEY";
 
     public PreferenceService(Context context) {
         mPrefs = getPrefs(context);
@@ -38,7 +41,7 @@ public class PreferenceService {
     }
 
     public long getLastTimeSync() {
-        return mPrefs.getLong(LAST_SYNC, System.currentTimeMillis());
+        return mPrefs.getLong(LAST_SYNC, 1520890510543L);
     }
 
     public void setMaxVisitAmount(int visitAmount) {
@@ -49,22 +52,33 @@ public class PreferenceService {
         return mPrefs.getInt(MAX_VISIT_AMOUNT, 1);
     }
 
-    public void setBaseURL(String baseURL) {
-        mPrefs.edit().putString(BASE_URL_KEY, baseURL).apply();
-        mPrefs.edit().putString(SYNC_URL_KEY, baseURL + SYNC_PATH).apply();
-        mPrefs.edit().putString(CREATE_URL_KEY, baseURL + CREATE_PATH).apply();
-
-    }
-
-    public String getBaseURL() {
-        return mPrefs.getString(BASE_URL_KEY, "");
-    }
-
-    public String getCreateURL() {
+    private String getCreateURL() {
         return mPrefs.getString(CREATE_URL_KEY, "");
     }
 
-    public String getSyncURL() {
+    private String getSyncURL() {
         return mPrefs.getString(SYNC_URL_KEY, "");
+    }
+
+    public void setCredentials(Credentials credentials) {
+        String domain = credentials.getDomain();
+        mPrefs.edit().putString(DOMAIN_KEY, domain).apply();
+        mPrefs.edit().putString(SYNC_URL_KEY, domain + SYNC_PATH).apply();
+        mPrefs.edit().putString(CREATE_URL_KEY, domain + CREATE_PATH).apply();
+
+        String login = credentials.getLogin();
+        mPrefs.edit().putString(LOGIN_KEY, login).apply();
+
+        String password = credentials.getPassword();
+        mPrefs.edit().putString(PASSWORD_KEY, password).apply();
+    }
+
+    public Credentials getCredentials() {
+        String domain = mPrefs.getString(DOMAIN_KEY, "");
+        String login = mPrefs.getString(LOGIN_KEY, "");
+        String password = mPrefs.getString(PASSWORD_KEY, "");
+        String syncURL = getSyncURL();
+        String createURL = getCreateURL();
+        return new Credentials(login, password, domain, syncURL, createURL);
     }
 }

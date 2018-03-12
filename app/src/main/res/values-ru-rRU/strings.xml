@@ -54,4 +54,11 @@
     <string name="sync_url">Cинхр. URL</string>
     <string name="https_protocol">https://www.</string>
     <string name="visit_dialog_message">Измените максимальное кол-во визитов.</string>
+    <string name="password">Пароль</string>
+    <string name="login">Логин</string>
+    <string name="settings">Настройки</string>
+    <string name="error_settings_domain">Домен не действительный.</string>
+    <string name="error_settings_login">Логин должен быть длиннее 5 символов.</string>
+    <string name="error_settings_password">Пароль должен быть длиннее 5 символов.</string>
+    <string name="error_settings_all">Необходимо установить учетные данные перед синхронизацией.</string>
 </resources>

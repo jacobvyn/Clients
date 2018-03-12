@@ -7,25 +7,24 @@ import android.text.TextUtils;
 
 import com.alex.devops.R;
 import com.alex.devops.commons.BaseActivity;
-import com.alex.devops.net.RemoteSync;
+import com.alex.devops.net.DBInterface;
+import com.alex.devops.net.HttpService;
 import com.alex.devops.utils.ExecutorHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class DataBaseWrapper {
+public class DataBaseWrapper implements DBInterface {
     private static DataBaseWrapper sInstance;
 
     private volatile OnDataBaseChangedListener mListener;
     private ClientsDataBase mDataBase;
-    private RemoteSync mRemoteSync;
     private Handler mHandler;
 
 
     private DataBaseWrapper(BaseActivity activity) {
         mDataBase = ClientsDataBase.getDataBase(activity);
-        mRemoteSync = new RemoteSync();
         mHandler = new Handler((Looper.getMainLooper()));
     }
 
@@ -95,44 +94,6 @@ public class DataBaseWrapper {
         ExecutorHelper.submit(task);
     }
 
-    public void syncing(final long lastTimeSync, final String syncURL, final String createURL) {
-        Runnable task = new Runnable() {
-            @Override
-            public void run() {
-                List<Client> nonSyncedClients = mDataBase.clientDao().getAllClientsAfter(lastTimeSync);
-                if (nonSyncedClients.size() > 0) {
-                    boolean result = mRemoteSync.doPostRequest(nonSyncedClients, createURL);
-                    proceedSyncing(result, syncURL);
-                } else {
-                    proceedSyncing(true, syncURL);
-                }
-            }
-        };
-        ExecutorHelper.submit(task);
-    }
-
-    private void proceedSyncing(boolean proceedSync, String syncURL) {
-        if (proceedSync) {
-            List<Client> clientList = mRemoteSync.getAllClients(syncURL);
-            if (clientList.size() > 0) {
-                mDataBase.clientDao().deleteAll();
-                mDataBase.clientDao().insertAll(clientList);
-                onSearchFinished(clientList);
-            }
-            onResult(true);
-        } else {
-            onResult(false);
-        }
-    }
-
-    private void onResult(boolean result) {
-        if (result) {
-            onSyncResult(R.string.syncing_finished_success);
-        } else {
-            onSyncResult(R.string.syncing_failed);
-        }
-    }
-
     private void onSearchFinished(final List<Client> clientsList) {
         runOnUiThread(new Runnable() {
             @Override
@@ -155,16 +116,6 @@ public class DataBaseWrapper {
         });
     }
 
-    private void onSyncResult(final int resourceMessage) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (mListener != null) {
-                    mListener.onSyncResult(resourceMessage);
-                }
-            }
-        });
-    }
 
     private void runOnUiThread(Runnable runnable) {
         if (mHandler != null) {
@@ -176,11 +127,32 @@ public class DataBaseWrapper {
         mListener = listener;
     }
 
+    @Override
+    public List<Client> getAllClientsSyncAfter(long time) {
+        if (mDataBase != null) {
+            return mDataBase.clientDao().getAllClientsAfter(time);
+        } else {
+            return new ArrayList<Client>();
+        }
+    }
+
+    @Override
+    public void deleteAllSync() {
+        if (mDataBase != null) {
+            mDataBase.clientDao().deleteAll();
+        }
+    }
+
+    @Override
+    public void insertAllSync(List<Client> clientList) {
+        if (mDataBase != null) {
+            mDataBase.clientDao().insertAll(clientList);
+        }
+    }
+
     public interface OnDataBaseChangedListener {
         void onClientSavedSuccess();
 
         void onSearchFinished(List<Client> clientsList);
-
-        void onSyncResult(int resourceMessage);
     }
 }

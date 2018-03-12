@@ -9,7 +9,9 @@ import android.widget.Toast;
 
 import com.alex.devops.R;
 import com.alex.devops.db.Client;
+import com.alex.devops.db.Credentials;
 import com.alex.devops.db.DataBaseWrapper;
+import com.alex.devops.net.Synchronizer;
 import com.alex.devops.utils.PermissionHelper;
 import com.alex.devops.utils.Utils;
 
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseActivity extends AppCompatActivity
-        implements DataBaseWrapper.OnDataBaseChangedListener {
+        implements DataBaseWrapper.OnDataBaseChangedListener, Synchronizer.Listener {
     private PreferenceService mPrefs;
     private DataBaseWrapper mDataBase;
 
@@ -76,30 +78,25 @@ public abstract class BaseActivity extends AppCompatActivity
 
     protected void startSyncConfirmed() {
         if (Utils.isOnline(this)) {
-            if (mDataBase != null) {
-                mDataBase.syncing(getLastTimeSync(), getSyncURL(), getCreateURL());
-            }
+            Synchronizer synchronizer = new Synchronizer(getCredentials(), this, mDataBase);
+            synchronizer.syncing(getLastTimeSync());
             Snackbar.make(findViewById(R.id.root_view), R.string.syncing, Snackbar.LENGTH_SHORT).show();
         } else {
             Snackbar.make(findViewById(R.id.root_view), R.string.no_connection, Snackbar.LENGTH_SHORT).show();
         }
     }
 
-    private String getCreateURL() {
-        return mPrefs.getCreateURL();
+    @Override
+    public void onSyncResult(int resource, boolean result) {
+        if (result) {
+            setLastTimeSyncNow();
+            getAllClients();
+        }
     }
 
-    public String getBaseURL() {
-        return mPrefs.getBaseURL();
-    }
-
-    private String getSyncURL() {
-        return mPrefs.getSyncURL();
-    }
-
-    public void setBaseURL(String createURL) {
+    public void setCredentials(Credentials credentials) {
         if (mPrefs != null) {
-            mPrefs.setBaseURL(createURL);
+            mPrefs.setCredentials(credentials);
         }
     }
 
@@ -111,11 +108,6 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     public void onClientSavedSuccess() {
-    }
-
-    @Override
-    public void onSyncResult(int resource) {
-        setLastTimeSyncNow();
     }
 
     public void setMaxVisitAmount(int visitAmount) {
@@ -155,5 +147,9 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     public void onSearchFinished(List<Client> clients) {
+    }
+
+    public Credentials getCredentials() {
+        return mPrefs != null ? mPrefs.getCredentials() : new Credentials();
     }
 }

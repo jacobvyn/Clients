@@ -14,14 +14,14 @@ android {
     }
     buildTypes {
         release {
-            buildConfigField("String", "USER_NAME", KEYSTORE_USER_NAME)
-            buildConfigField("String", "PASSWORD", KEYSTORE_PASSWORD)
+            buildConfigField("String", "LOGIN_MOCK", KEYSTORE_LOGIN_MOCK)
+            buildConfigField("String", "PASSWORD_MOCK", KEYSTORE_PASSWORD_MOCK)
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            buildConfigField("String", "USER_NAME", KEYSTORE_USER_NAME)
-            buildConfigField("String", "PASSWORD", KEYSTORE_PASSWORD)
+            buildConfigField("String", "LOGIN_MOCK", KEYSTORE_LOGIN_MOCK)
+            buildConfigField("String", "PASSWORD_MOCK", KEYSTORE_PASSWORD_MOCK)
         }
     }
     lintOptions {
@@ -36,8 +36,6 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.10.0'
 
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.7.2'
-
-
 
     implementation 'com.android.support:appcompat-v7:27.1.0'
     implementation 'com.android.support:design:27.1.0'

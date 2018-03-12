@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.alex.devops.commons.BaseActivity;
 import com.alex.devops.db.Client;
+import com.alex.devops.db.Credentials;
 import com.alex.devops.views.SyncDialog;
 import com.alex.devops.views.SearchFragment;
 import com.alex.devops.views.VisitDialog;
@@ -98,8 +99,8 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void onBaseURLChanged(String newURL) {
-        setBaseURL(newURL);
+    public void onCredentialsChanged(Credentials credentials) {
+        setCredentials(credentials);
     }
 
     private void setMaxVisits() {
@@ -188,8 +189,8 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void onSyncResult(int resource) {
-        super.onSyncResult(resource);
+    public void onSyncResult(int resource, boolean result) {
+        super.onSyncResult(resource, result);
         Snackbar.make(mRootView, resource, Snackbar.LENGTH_LONG).show();
     }
 
